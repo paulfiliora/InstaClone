@@ -1,2 +1,3 @@
-# InstaClone
-https://medium.com/@the_taqquikarim/implement-an-instagram-clone-6bebeb51b8a1
+# SQL Practice
+
+Please take a look at the companion class notes page to determine what actions you must take with sql for this practice set
