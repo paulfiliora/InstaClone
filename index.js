@@ -60,7 +60,7 @@ app.use((req, res, next) => {
 //         });
 // });
 
-// app.get('/dept/:dept_id/user', (req, res, next) => {
+// app.get('/follower/:follower_id/user', (req, res, next) => {
 //             const d_ID = req.params.dept_id
 //             const query = `select user.name as user_name,
 //                             user.id as user_id,

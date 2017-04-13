@@ -1,13 +1,13 @@
 -- UP
-CREATE TABLE User(
+CREATE TABLE Users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
 );
-CREATE table Follower(
+CREATE table Followers(
     user_id INTEGER,
     follower_id INTEGER
 );
-CREATE table Activity(
+CREATE table Activities(
     user_id INTEGER NOT NULL,
     activity_type_id TEXT NOT NULL,
     activity_payload NOT NULL
@@ -17,6 +17,6 @@ CREATE table Activity(
 
 -- DOWN
 
-DROP TABLE User;
-DROP TABLE Follower;
-DROP TABLE Activity;
+DROP TABLE Users;
+DROP TABLE Followers;
+DROP TABLE Activities;
