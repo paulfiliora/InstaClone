@@ -7,7 +7,9 @@ This is a group project to clone Instagram using SQLite, Express, and a simple C
 
 ## Collaborators:
 Paul Filiora  [@PFiliora](https://github.com/pfiliora)
+
 Dzhamshed Shoismatuloev   [@Dzhama](https://github.com/Dzhama)
+
 Cynthia Elliot   [@CNElliott](https://github.com/cnelliott)
 
 ## Features:
