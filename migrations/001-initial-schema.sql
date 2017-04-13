@@ -4,13 +4,13 @@ CREATE TABLE User(
     name TEXT NOT NULL
 );
 CREATE table Follower(
-    user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    follower_id TEXT NOT NULL
+    user_id INTEGER,
+    follower_id INTEGER
 );
 CREATE table Activity(
     user_id INTEGER NOT NULL,
     activity_type_id TEXT NOT NULL,
-    activity_payload TEXT NOT NULL
+    activity_payload NOT NULL
 );
 
 -- INSERT into user (name) VALUES ('defaultUser');
