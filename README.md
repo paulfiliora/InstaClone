@@ -10,7 +10,7 @@ Paul Filiora  [@PFiliora](https://github.com/pfiliora)
 Dzhamshed Shoismatuloev   [@Dzhama](https://github.com/Dzhama)
 Cynthia Elliot   [@CNElliott](https://github.com/cnelliott)
 
-##Features
+## Features:
 Supports 4 core features: Authentication, Post Creation, User Following, and Activity Feed Generation.
 1) Authenticating Users — allows for a user to register for, log into, and deactivate an account.
 2) Creating Posts — includes uploading photos with captions, and viewing previously uploaded photos on a profile page.
@@ -22,12 +22,15 @@ Supports 4 core features: Authentication, Post Creation, User Following, and Act
 Here's how to get started through node.js and git
 
 Clone Project
+
 `$ git clone git@github.com:pfiliora/InstaClone.git && cd InstaClone`
 
 Install Modules
+
 `$ npm install`
 
 Initiate Server
+
 `$ npm start`
 
 ## API Documentation
