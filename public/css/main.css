@@ -4,20 +4,41 @@
 	font-size: 18px;
 }
 .ui.menu {
-	border-left: none;
-	border-right: none;
+	border: none;
 }
 .ui.menu.five.item .item {
 	width: 15%;
 }
 .ui.card {
-	width: 35%;
+	width: 45%;
 	margin: auto;
 	margin-bottom: 10px;
 }
 .main {
 	margin: auto;
 }
+.ui.three.stackable.cards {
+	width: 70%;
+	margin: auto;
+}
+.ui.form {
+	width: 30%;
+	margin: auto;
+}
+.login {
+	margin-bottom: 10px;
+}
+.top {
+	clear: both;
+}
+
+
+
+
+
+
+
+
 
 @media only screen and (max-width: 1350px) {
    .ui.card {
@@ -36,11 +57,7 @@
     }
 .logout {
 	font-size: 15px;
-	}
-
-}
-
-.ui.three.stackable.cards {
-	width: 70%;
 	margin: auto;
+	}
+   
 }
