@@ -15,48 +15,49 @@
 	<body>
 	 <!-- Navigation Bar -->
 		<div class="ui five item menu">
-			<a class="item" href="index.html"><i class="grey big instagram icon"></i></a>
+			<a class="item" href="home.html"><i class="grey big instagram icon"></i></a>
 			<a class="item" href="users.html"><i class="grey big search icon"></i></a>
 			<a class="item" href="addPost.html"><i class="grey big add square icon"></i></a>
 			<a class="item" href="profile.html"><i class="grey big user icon"></i></a>
-			<a class="item" href="logout.html"><span class="logout">Log out<span></a>
+			<a class="item" href="index.html"><span class="logout">Log out<span></a>
 		</div>
 	 <!-- Navigation Bar -->
-     
-     <!-- Main Page -->
+	 <!-- Main Page -->
+	 <div class="main">
+		<form class="ui form js-login-form Login">
+			<div class="field">
+				<label>Login</label>
+				<input type="text" name="Login" placeholder="Login" class="js-login">
+			</div>
+			<div class="field">
+				<label>Password</label>
+				<input type="text" name="Password" placeholder="Password" class="js-password">
+			</div>
+			<button class="ui button js-submit" type="submit">Log In</button>
+		</form>
 
-<div class="main">
-<div class="ui card ">
-  <div class="image">
-    <img src="https://pp.userapi.com/c630020/v630020494/3907e/dOTEyY9D9wM.jpg">
-  </div>
-  <div class="content">
-    <a class="header">Dzhama</a>
-    <div class="meta">
-      <span class="date">july 4 2016</span>
+<!-- 		<form class="ui form js-signup-form signup">
+			<div class="field">
+				<label>Login</label>
+				<input type="text" name="Login" placeholder="Login" class="js-login-signup">
+			</div>
+			<div class="field">
+				<label>Password</label>
+				<input type="text" name="Password" placeholder="Password" class="js-password-signup">
+			</div>
+			<div class="field">
+				<label>Email</label>
+				<input type="text" name="Email" placeholder="Email" class="js-password-signup">
+			</div>
+			<button class="ui button js-submit" type="submit">Sign In</button>
+		</form> -->
+
     </div>
-    <div class="description">
-      Independent's day selfie !
-    </div>
-  </div>
-</div>
-
-<div class="ui card">
-<a class="image" href="#">
-<img src="https://pp.userapi.com/c630020/v630020494/3907e/dOTEyY9D9wM.jpg">
-</a>
-<div class="content">
-<a class="header" href="#">Dzhama</a>
-<div class="meta">
-<a>Just Selfie</a>
-</div>
-</div>
-</div>
-</div>
 
 
-		  <!--Import jQuery before materialize.js-->
-		  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-		  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+
+		  <!--Import js-->
+		 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
+		  <script type="text/javascript" src="js/main.js"></script>
 	</body>
 </html>
