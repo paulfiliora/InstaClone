@@ -31,11 +31,71 @@ app.get('/users', (req, res, next) => {
 app.use((req, res, next) => {
     let args = {};
     for (const prop in req.body) {
+        console.log(prop, req.body[prop]);
         args['$' + prop] = req.body[prop];
     }
     req.body = args;
     next();
 })
+
+//get users that $user_id follows
+app.get('/users/:follower_id/user', (req, res) => {
+            const follower_ID = req.params.follower_id;
+            console.log(follower_ID)
+
+    db.all(`select 
+            users.first_name as user_fname,
+            users.last_name as user_lname,
+            activities.image_url as image,
+            activities.descr as description
+            from users
+            inner join followers on followers.user_id = users.id 
+            inner join activities on activities.user_id = users.id
+            where followers.follower_id = ${follower_ID}`)
+        .then((data) => {
+            SocketInst.broadcast('LOAD_BUFFER');
+            res.header('Content-Type', 'application/json');
+            res.send({  
+                users: data,  
+                numResults: data.length});
+        })
+        .catch((e) => {
+            console.log(e)
+            res.status(401);
+        });
+});
+
+// select 
+//             users.first_name as user_fname,
+//             users.last_name as user_lname,
+//             activities.image_url as image,
+//             activities.descr as description
+
+//             from users
+//             inner join activities on activities.user_id = users.id
+//             where users.id = 2
+
+
+//create a post
+app.post('/:user_id/post', (req, res, next) => {
+    db.all('SELECT * FROM activities')
+        .then(() => {
+            console.log(req.body)
+            return db.run("INSERT INTO activities (user_id, image_url, descr) values ($user_id, $image_url, $descr)", req.body)
+        })
+        .then((user) => {
+
+            SocketInst.broadcast('LOAD_BUFFER');
+            return db.get('SELECT * FROM activities WHERE activities.id = ?', [activities.lastID])
+        })
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({ activities: data });
+        })
+        .catch((e) => {
+            res.status(401);
+        });
+});
 
 // app.post('/user', (req, res, next) => {
 //     db.all('SELECT * FROM user')
@@ -106,7 +166,7 @@ app.use((req, res, next) => {
 
 Promise.resolve()
     .then(() => db.open(DB_NAME, { Promise }))
-    .then(() => db.migrate({ force: 'last' }))
+    // .then(() => db.migrate({ force: 'last' }))
     .then(() => app.listen(port))
     .then(() => {
         console.log(`Server started on port ${port}`)
