@@ -16,9 +16,11 @@ const DB_NAME = './database.sqlite';
 app.use(require('./apiroutes'))
 
 const socket = require('./sqliteui/websocket');
-app.use('/', express.static('./sqliteui/public', {
-    'index': ['index.html']
+
+app.use('/', express.static( 'public', {
+	'index': [ 'index.html' ]
 }));
+
 
 //prepend api routes url
 app.use('/api', instacloneApi);
