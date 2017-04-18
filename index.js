@@ -10,8 +10,8 @@ app.use(parser.json())
 const DB_NAME = './database.sqlite';
 
 const socket = require('./sqliteui/websocket');
-app.use('/', express.static('./sqliteui/public', {
-    'index': ['index.html']
+app.use('/', express.static( 'public', {
+    'index': [ 'index.html' ]
 }));
 
 const SocketInst = socket(DB_NAME, app);
