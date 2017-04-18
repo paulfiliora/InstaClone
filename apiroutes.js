@@ -27,6 +27,7 @@ router.use(parser.json())
 // Get all users + their activity
 router.get('/users', (req, res, next) => {
 	instaApp.getUsers(req, res)
+	// next(data);
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({ users: data });
@@ -57,7 +58,6 @@ router.get('/user/:user_id', (req, res, next) => {
 
 // get users that $user_id follows
 router.get('/:follower_id/followedusers', (req, res) => {
-	console.log("hey")
 	const id = parseInt(req.params.follower_id, 10);
 	instaApp.getFollowed(id)
     .then((data) => {
@@ -76,12 +76,13 @@ router.get('/:follower_id/followedusers', (req, res) => {
 
 // create a post
 router.post('/:user_id/post', (req, res, next) => {
-	    let args = {};
-     for (const prop in req.body) {
-         args['$' + prop] = req.body[prop];
-     }
+	let args = {};
+    for (const prop in req.body) {
+        args['$' + prop] = req.body[prop];
+    }
     req.body = args;
-	instaApp.createPost(req.body)
+    const user_id = parseInt(req.params.user_id, 10);
+	instaApp.createPost(user_id, req.body)
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({ post: data });
@@ -92,29 +93,86 @@ router.post('/:user_id/post', (req, res, next) => {
         });
 });
 
-// router.follow('/:user_id/follow', (req, res, next) => {
-// 	// const requestBody = req.body;
-// 	instaApp.follow(req)
-//  	// .then((user) => {
-//   //           // SocketInst.broadcast('LOAD_BUFFER');
-//   //           return db.get('SELECT * FROM activities WHERE activities.id = ?', [activities.lastID])
-//   //       })
-//         .then((data) => {
-//         	console.log("at step 5 route.js")
-//             res.header('Content-Type', 'application/json');
-//             res.send({
-//                 activities: data
-//             });
-//         })
-//         .catch((e) => {
-//             res.status(401);
-//         });
-// });
+// Follow a user
+router.post('/:user_id/follow/:followed_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const followed_id = parseInt(req.params.follower_id, 10);
+	instaApp.followUser(user_id, followed_id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+            	followed_users: data,
+            	numResults: data.length
+        	});
+        })
+        .catch((e) => {
+        	console.log(e)
+            res.status(401);
+        });
+});
+
+// Edit a post
+router.put('/:user_id/follow/:followed_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const followed_id = parseInt(req.params.follower_id, 10);
+	instaApp.followUser(user_id, followed_id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+            	followed_users: data,
+            	numResults: data.length
+        	});
+        })
+        .catch((e) => {
+        	console.log(e)
+            res.status(401);
+        });
+});
+
+// Delete a post
+router.delete('/:user_id/:post_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const post_id = parseInt(req.params.follower_id, 10);
+	instaApp.followUser(user_id, post_id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+            	followed_users: data,
+            	numResults: data.length
+        	});
+        })
+        .catch((e) => {
+        	console.log(e)
+            res.status(401);
+        });
+});
+
+// Unfollow a user
+router.delete('/:user_id/unfollow/:followed_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const followed_id = parseInt(req.params.follower_id, 10);
+	instaApp.followUser(user_id, followed_id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+            	followed_users: data,
+            	numResults: data.length
+        	});
+        })
+        .catch((e) => {
+        	console.log(e)
+            res.status(401);
+        });
+});
+
 
 
 // router.use((req, res) => {
 // 		res.header('Content-Type', 'application/json');
-//         res.send({ results: data });
+//         res.send({
+//            	followed_users: data,
+//            	numResults: data.length
+//         });
 // 	.catch((e) => {
 // 		console.log(e)
 // 		res.status(401);
