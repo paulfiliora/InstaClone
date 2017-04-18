@@ -9,19 +9,6 @@ const instaApp = require('./instaApp')
 const parser = require('body-parser');
 router.use(parser.json())
 
-const db = require('sqlite');
-const DB_NAME = './database.sqlite';
-
-
-const socket = require('./sqliteui/websocket');
-router.use('/', express.static('./sqliteui/public', {
-	'index': ['index.html']
-}));
-
-
-const SocketInst = socket(DB_NAME, express);
-app = SocketInst.app;
-
 // router.use((req, res, next) => {
 // 	console.log("in the use")
 // 	let args = {};
@@ -33,7 +20,7 @@ app = SocketInst.app;
 // 	next();
 // })
 
-// ## Get all users + their activity
+// Get all users + their activity
 router.get('/users', (req, res, next) => {
 	instaApp.getUsers(req, res)
         .then((data) => {
@@ -158,10 +145,10 @@ router.get('/:follower_id/followedusers', (req, res) => {
 // 	});
 // });
 
-Promise.resolve()
-	.then(() => db.open(DB_NAME, {
-		Promise
-	}))
+// Promise.resolve()
+// 	.then(() => db.open(DB_NAME, {
+// 		Promise
+// 	}))
 // 	// .then(() => db.migrate({ force: 'last' }))
 // 	.then(() => app.listen(port))
 // 	.then(() => {
