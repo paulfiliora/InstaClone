@@ -9,6 +9,7 @@ CREATE table followers(
     follower_id INTEGER
 );
 CREATE table activities(
+    -- id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id INTEGER NOT NULL,
     -- activity_type_id TEXT NOT NULL,
     -- activity_payload NOT NULL

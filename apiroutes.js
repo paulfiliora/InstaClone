@@ -6,6 +6,10 @@ const router = express.Router();
 
 const instaApp = require('./instaApp')
 
+const db = require('sqlite');
+const DB_NAME = './database.sqlite';
+
+
 const parser = require('body-parser');
 router.use(parser.json())
 
@@ -71,50 +75,22 @@ router.get('/:follower_id/followedusers', (req, res) => {
 });
 
 // create a post
-// router.post('/:user_id/post', (req, res, next) => {
-// 	// const requestBody = req.body;
-// 	instaApp.createPost(req)
-//  	// .then((user) => {
-//   //           // SocketInst.broadcast('LOAD_BUFFER');
-//   //           return db.get('SELECT * FROM activities WHERE activities.id = ?', [activities.lastID])
-//   //       })
-//         .then((data) => {
-//         	console.log("at step 5 route.js")
-//             res.header('Content-Type', 'application/json');
-//             res.send({
-//                 activities: data
-//             });
-//         })
-//         .catch((e) => {
-//             res.status(401);
-//         });
-// });
-
-// router.post('/:user_id/post', (req, res, next) => {
-// 	    let args = {};
-//      for (const prop in req.body) {
-//          args['$' + prop] = req.body[prop];
-//      }
-//      req.body = args;
-//     db.all('SELECT * FROM activities')
-//         .then(() => {
-//             console.log(req.body)
-//             db.run("INSERT INTO activities (user_id, image_url, descr) values ($user_id, $image_url, $descr)", req.body)
-//         })
-//         .then((user) => {
-//         	console.log("after insert")
-//             // SocketInst.broadcast('LOAD_BUFFER');
-//             // db.get('SELECT * FROM activities WHERE activities.id = ?', [activities.lastID])
-//         })
-//         .then((data) => {
-//         	console.log("after where")
-//             res.header('Content-Type', 'application/json');
-//             res.send({ activities: data });
-//         })
-//         .catch((e) => {
-//             res.status(401);
-//         });
-// });
+router.post('/:user_id/post', (req, res, next) => {
+	    let args = {};
+     for (const prop in req.body) {
+         args['$' + prop] = req.body[prop];
+     }
+    req.body = args;
+	instaApp.createPost(req.body)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({ post: data });
+        })
+        .catch((e) => {
+        	console.log(e)
+            res.status(401);
+        });
+});
 
 // router.follow('/:user_id/follow', (req, res, next) => {
 // 	// const requestBody = req.body;
