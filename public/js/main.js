@@ -1,18 +1,19 @@
-(function() {// protect the lemmings
-	function GET(url) {
-		return new Promise((resolve, reject) => {
-			const request = new XMLHttpRequest();
-			request.open('GET', url);
-			request.onload = () => {
-				const data = JSON.parse(request.responseText);
-				resolve(data)
-			}; 
-			request.onerror = (err) => {
-				reject(err)
-			};
-			request.send();
-		});
-	} // GET
+
+(function() { // protect the lemmings
+    function GET(url) {
+        return new Promise((resolve, reject) => {
+            const request = new XMLHttpRequest();
+            request.open('GET', url);
+            request.onload = () => {
+                const data = JSON.parse(request.responseText);
+                resolve(data)
+            };
+            request.onerror = (err) => {
+                reject(err)
+            };
+            request.send();
+        });
+    } // GET
 
 	
 	function POST(url, data) {
@@ -70,6 +71,31 @@
 } // DELETE
 
 
+ // Taking login and Password input value and sending it to DB using API routes
+document.querySelector('.js-submit').addEventListener('click', (e) => {
+		e.preventDefault();
+		console.log(1)
+		const login = document.querySelector('.js-login');
+		const password = document.querySelector('.js-password');
+		login.setAttribute('disabled', 'disabled');
+		password.setAttribute('disabled', 'disabled');
+        console.log(login.value);
+        console.log(password.value);
+		POST('/api/users', {
+			login: login.value,
+			password: password.value,
+		
+		}).then((data) => {
+			login.removeAttribute('disabled');
+			login.value = '';
+			password.removeAttribute('disabled');
+			password.value = '';
+			render(data);
+			console.log(data);
+		});
+
+		
+	});
 
 
 
@@ -97,4 +123,5 @@
 
 
 
-})
+
+})();
