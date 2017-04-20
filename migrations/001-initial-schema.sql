@@ -3,9 +3,9 @@ CREATE TABLE users(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
-    username TEXT NOT NULL,
-    password TEXT NOT NULL, -- sha256 hash of the plain-text password
-    salt TEXT NOT NULL -- salt that is appended to the password before it is hashed
+    email TEXT NOT NULL,
+    password TEXT NOT NULL -- sha256 hash of the plain-text password
+    -- salt TEXT NOT NULL -- salt that is appended to the password before it is hashed
 );
 CREATE table followers(
     user_id INTEGER,
@@ -17,14 +17,14 @@ CREATE table posts(
     -- activity_type_id TEXT NOT NULL,
     -- activity_payload NOT NULL
     image_url TEXT NOT NULL,
-    descr CHAR(140)
-    -- date 
+    descr CHAR(140),
+    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-INSERT into users (first_name, last_name, username, password, salt) VALUES ('Paul', 'Filiora','pusername', 'ppassword', 'salad');
-INSERT into users (first_name, last_name, username, password, salt) VALUES ('Emily', 'Fox','eusername', 'epassword', 'fsalad');
-INSERT into users (first_name, last_name, username, password, salt) VALUES ('Orange', 'Juice','ousername', 'opassword', 'salad');
-INSERT into users (first_name, last_name, username, password, salt) VALUES ('Black', 'Coffee','busername', 'bpassword', 'salad');
+INSERT into users (first_name, last_name, email, password) VALUES ('Paul', 'Filiora','p@email.com', 'ppassword');
+INSERT into users (first_name, last_name, email, password) VALUES ('Home', 'Fries','h@email.com', 'epassword');
+INSERT into users (first_name, last_name, email, password) VALUES ('Orange', 'Juice','o@email.com', 'opassword');
+INSERT into users (first_name, last_name, email, password) VALUES ('Black', 'Coffee','b@email.come', 'bpassword');
 
 
 INSERT into followers (user_id, followed_id) VALUES (1,2);

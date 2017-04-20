@@ -40,8 +40,25 @@ router.get('/users', (req, res, next) => {
 // Get a specified user ## url feeds user_id
 router.get('/user/:user_id', (req, res, next) => {
 	const id = parseInt(req.params.user_id, 10);
-	console.log(id)
 	instaApp.getUser(id)
+	    .then((data) => {
+	        // SocketInst.broadcast('LOAD_BUFFER');
+	        res.header('Content-Type', 'application/json');
+	        res.send({
+	            user: data,
+	            numResults: data.length
+		        });
+		    })
+	    .catch((e) => {
+	        console.log(e)
+	        res.status(401);
+    });
+});
+
+// Get a specified post ## url feeds post_id
+router.get('/post/:post_id', (req, res, next) => {
+	const id = parseInt(req.params.post_id, 10);
+	instaApp.getPost(id)
 	    .then((data) => {
 	        // SocketInst.broadcast('LOAD_BUFFER');
 	        res.header('Content-Type', 'application/json');

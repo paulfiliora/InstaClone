@@ -5,28 +5,56 @@ const instaApp = {};
 
 // Get all users + their activity
 instaApp.getUsers = () => {
-    return db.all(`SELECT * FROM users 
+    return db.all(`SELECT 
+                    users.first_name AS firstName,
+                    users.last_name AS lastName,
+                    posts.image_url AS image,
+                    posts.descr AS description,
+                    posts.Timestamp
+                FROM users 
                     INNER JOIN posts ON posts.user_id = users.id`)
 };
 
 // Get a specified user via user.id + their activity
 instaApp.getUser = (user_id) => {
-    return db.all(`SELECT * FROM users 
-            INNER JOIN posts ON posts.user_id = users.id
-            WHERE users.id = ${user_id}`)
+    return db.all(`SELECT 
+                    users.first_name AS firstName,
+                    users.last_name AS lastName,
+                    posts.image_url AS image,
+                    posts.descr AS description,
+                    posts.Timestamp AS timestamp
+                FROM users 
+                    INNER JOIN posts ON posts.user_id = users.id
+                WHERE users.id = ${user_id}
+                ORDER BY posts.Timestamp DESC`)
 };
 
-// Get users that $user_id follows
+// Get a specified post via post.post_id
+instaApp.getPost = (post_id) => {
+    return db.all(`SELECT
+                    users.first_name AS firstName,
+                    users.last_name AS lastName,
+                    posts.image_url AS image,
+                    posts.descr AS description,
+                    posts.Timestamp
+                FROM posts
+                    INNER JOIN users ON posts.user_id = users.id
+                WHERE posts.post_id = ${post_id}`)
+};
+
+// Get users that $user_id follows ## this is for the feed
 instaApp.getFollowed = (user_id) => {
     return db.all(`SELECT 
-                users.first_name AS user_fname,
-                users.last_name AS user_lname,
-                posts.image_url AS image,
-                posts.descr AS description
-            FROM users
-                INNER JOIN followers ON followers.followed_id = users.id 
-                INNER JOIN posts ON posts.user_id = users.id
-            WHERE followers.user_id = ${user_id}`)
+                    users.first_name AS user_fname,
+                    users.last_name AS user_lname,
+                    posts.image_url AS image,
+                    posts.descr AS description,
+                    posts.Timestamp
+                FROM users
+                    INNER JOIN followers ON followers.followed_id = users.id 
+                    INNER JOIN posts ON posts.user_id = users.id
+                WHERE followers.user_id = ${user_id}
+                ORDER BY posts.Timestamp DESC`)
 };
 
 // Create a user //NO ROUTE YET
