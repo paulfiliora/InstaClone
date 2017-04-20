@@ -71,12 +71,38 @@
 } // DELETE
 
 
+//  Checking if you are on that page after that running the page function
+
+
+if (document.querySelector('.index-page') !== null) {
+	indexPage();
+}
+if (document.querySelector('.signup-page') !== null) {
+	signupPage();
+}
+if (document.querySelector('.profille-page') !== null) {
+	profillePage();
+}
+if (document.querySelector('.home-page') !== null) {
+	homePage();
+}
+if (document.querySelector('.users-page') !== null) {
+	usersPage();
+}
+
+
+
+
+
+
 // Taking login and Password input value and sending it to DB using API routes
 function indexPage(){
- 	document.querySelector('.js-submit').addEventListener('click', (e) => {
+ 		const submit = document.querySelector('.js-submit')
+ 			submit.addEventListener('click', (e) => {
 			e.preventDefault();
-			const login = document.querySelector('.js-login');
-			const password = document.querySelector('.js-password');
+			submit.setAttribute('disabled', 'disabled');
+		const login = document.querySelector('.js-login');
+		const password = document.querySelector('.js-password');
 			login.setAttribute('disabled', 'disabled');
 			password.setAttribute('disabled', 'disabled');
 	        console.log(login.value);
@@ -90,6 +116,7 @@ function indexPage(){
 				login.value = '';
 				password.removeAttribute('disabled');
 				password.value = '';
+				submit.removeAttribute('disabled');
 				render(data);
 
 			});
@@ -99,11 +126,13 @@ function indexPage(){
 
  // getting user sign up information and sending it to DB
  function signupPage (){
-	document.querySelector('.js-submit-signup').addEventListener('click', (e) => {
+		const submitSignUp = document.querySelector('.js-submit-signup')
+			submitSignUp.addEventListener('click', (e) => {
 			e.preventDefault();
-			const loginSignup = document.querySelector('.js-login-signup');
-			const passwordSignup = document.querySelector('.js-password-signup');
-			const emailSignup = document.querySelector('.js-email-signup');
+			submitSignUp.setAttribute('disabled', 'disabled');
+		const loginSignup = document.querySelector('.js-login-signup');
+		const passwordSignup = document.querySelector('.js-password-signup');
+		const emailSignup = document.querySelector('.js-email-signup');
 			loginSignup.setAttribute('disabled', 'disabled');
 			passwordSignup.setAttribute('disabled', 'disabled');
 			emailSignup.setAttribute('disabled', 'disabled');
@@ -123,6 +152,7 @@ function indexPage(){
 				passwordSignup.value = '';
 				emailSignup.removeAttribute('disabled');
 				emailSignup.value = '';
+				submit.removeAttribute('disabled');
 				render(data);
 
 			});
@@ -130,31 +160,45 @@ function indexPage(){
 	});
 }
 
+ // getting user sign up information and sending it to DB
+ function homePage (){
+ 	
+ 	const container = document.querySelector('.js-main');
+		  container.innerHTML = "";
+	
+	const card = document.createElement('div');
+	      card.classList.add('ui', 'card')
+	      
 
+	const image = document.createElement('div');
+	      image.classList.add('image')
+	      image.innerHTML = '<img src="https://pp.userapi.com/c630020/v630020494/3907e/dOTEyY9D9wM.jpg">';
 
-
-
-
-
-
-//  Checking if you are on that page after that running the page function
-
-
-if (document.querySelector('.index-page') !== null) {
-	indexPage();
+	const content = document.createElement('div');
+	      content.classList.add("content")
+          content.innerHTML = `
+								<a class="header">Dzhama</a>
+								<div class="meta">
+									<span class="date">july 4 2016</span>
+								</div>
+								<div class="description">
+									Independent's day selfie !
+								</div>
+							
+								 `;
+		 container.appendChild(card);
+		 card.appendChild(image);
+		 card.appendChild(content);
+	    
 }
-if (document.querySelector('.signup-page') !== null) {
-	signupPage();
-}
-if (document.querySelector('.profille-page') !== null) {
-	profillePage();
-}
-if (document.querySelector('.home-page') !== null) {
-	homePage();
-}
-if (document.querySelector('.users-page') !== null) {
-	usersPage();
-}
+
+
+
+
+
+
+
+
 
 
 
