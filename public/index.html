@@ -33,7 +33,22 @@
 				<label>Password</label>
 				<input type="text" name="Password" placeholder="Password" class="js-password">
 			</div>
-			<button class="ui button js-submit" type="submit">Log In</button>
+			<button type="submit" class="ui button js-submit">Log In</button>
+
+		</form>
+
+		<form action="/login" method="post">
+		    <div>
+		        <label>Username:</label>
+		        <input type="text" name="username"/>
+		    </div>
+		    <div>
+		        <label>Password:</label>
+		        <input type="password" name="password"/>
+		    </div>
+		    <div>
+		        <input type="submit" value="Log In"/>
+		    </div>
 		</form>
 
 <!-- 		<form class="ui form js-signup-form signup">
@@ -57,7 +72,8 @@
 
 
 		  <!--Import js-->
-		 <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
-		  <script type="text/javascript" src="js/main.js"></script>
+		 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>-->
+  		<script src="js/main.js"></script>
+
 	</body>
 </html>

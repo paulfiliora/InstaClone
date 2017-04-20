@@ -1,4 +1,4 @@
-# Instagram Clone Assignmnet - Group Project
+# Instagram Clone Assignment - Group Project
 
 [Assignment Instruction Page](https://medium.com/@the_taqquikarim/implement-an-instagram-clone-6bebeb51b8a1)
 
@@ -38,6 +38,3 @@ Initiate Server
 ## API Documentation
 
 ## DB Schemas
-
-
-## README 
