@@ -1,73 +1,76 @@
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
-// //*******************************//
-// //************************************************8*****// here while I test3
+passport.serializeUser((user, done) => {
+    console.log('serializing user', user)
+    done(null, user.id)
+});
 
-// const passport = require('passport');
-// const LocalStrategy = require('passport-local').Strategy;
+passport.deserializeUser((user, done) => {
+    // db.all('SELECT id, username FROM users WHERE id = ?', id, function (err, row) {
+    // if (!row) return done(null, false);
+    // done(null, user)
+    // });
+    User.findById(user.id, function (err, user) {
+        done(err, user);
+    });
+});
 
-// passport.serializeUser((user, done) => {
-//     done(null, user)
-// });
+//at least checks the db for combo, returns username & id
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+}, (email, password, done) => {
+    if (!email || !password) {
+        return done('error', {}, {});
+    }
 
-// passport.deserializeUser((user, done) => {
-//     // db.all('SELECT id, username FROM users WHERE id = ?', id, function (err, row) {
-//     // if (!row) return done(null, false);
-//     // done(null, user)
-//     // });
-//     User.findById(id, function (err, user) {
-//         done(err, user);
-//     });
-// });
+    // db.all(`SELECT users.email, users.id FROM users WHERE users.email = '${email}' AND users.password = '${password}'`,function(err,rows){
+    //     if (err)
+    //         return done(err);
+    //         if (!rows.length) {
+    //         return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
+    //         } 
 
-// //at least checks the db for combo, returns username & id
-// passport.use(new LocalStrategy({
-//     usernameField: 'email',
-//     passwordField: 'password',
-// }, (email, password, done) => {
-//     if (!email || !password) {
-//         return done('error', {}, {});
-//     }
+    //         if (!( rows[0].password == password))
+    //         return done(null, false, req.flash('loginMessage', 'Wrong password.')); // create the loginMessage and save it to session as flashdata
 
-//     // db.all(`SELECT users.email, users.id FROM users WHERE users.email = '${email}' AND users.password = '${password}'`,function(err,rows){
-//     //     if (err)
-//     //         return done(err);
-//     //         if (!rows.length) {
-//     //         return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
-//     //         } 
+    //         // all is well, return successful user
+    //         return done(null, rows[0]);             
+    //     });
 
-//     //         if (!( rows[0].password == password))
-//     //         return done(null, false, req.flash('loginMessage', 'Wrong password.')); // create the loginMessage and save it to session as flashdata
+    db.all(`SELECT users.first_name, users.email, users.id FROM users WHERE users.email = '${email}' AND users.password = '${password}'`)
+        .then((row) => {
+            console.log(row)
+            if (!row || row.length === 0) return done(true, false);
+            return done(null, row);
+        })
+}));
 
-//     //         // all is well, return successful user
-//     //         return done(null, rows[0]);             
-//     //     });
+app.use(passport.initialize());
+app.use(passport.session());
 
-//     db.all(`SELECT users.email, users.id FROM users WHERE users.email = '${email}' AND users.password = '${password}'`)
-//         .then((row) => {
-//             console.log(row)
-//             if (!row) return done(null, false);
-//             return done(null, row);
-//         })
-// }));
+app.post('/auth/login', (request, response, next) => {
+    passport.authenticate('local', (err, user, info) => {
+        console.log('about to authenticate')
+        console.log(err, user, info)
+        if (err || !user) {
+            console.log(err);
+           next()
+        }
+        
+        request.logIn(user, (err) => {
+            console.log('now in req login', err)
+            if (err) return next(err);
+            response.header('Content-Type', 'application/json');
+            response.send({
+                success: true,
+            });
+        });
+    })(request, response, next);
+});
 
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// app.post('/auth/login', (request, response, next) => {
-//     passport.authenticate('local', (err, user, info) => {
-//         if (err) console.log(err);
-//         if (!user) console.log(user);
-
-//         request.logIn(user, (err) => {
-//             console.log('now in req login')
-//             if (err) return next(err);
-//             response.header('Content-Type', 'application/json');
-//             response.send({
-//                 success: true,
-//             });
-//         });
-//     })(request, response, next);
-// });
-
-// //*******************************//
-// //*******************************//
+app.use((req, res) => {
+    res.header('Content-Type', 'application/json')
+    res.send({success: false})
+})
