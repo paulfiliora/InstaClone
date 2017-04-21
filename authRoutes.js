@@ -1,76 +1,106 @@
+const express = require('express');
+
+const authApp = express();
+
+const Users = require('./users')
+
+let app = express();
+const port = 4001;
+
+// data base using sqlite link
+const db = require('sqlite');
+const DB_NAME = './database.sqlite';
+
+// parser session middleware
+const parser = require('body-parser');
+
+
+// grab authentication routes
+const Auth = require('./authRoutes');
+
+//authorize user
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-passport.serializeUser((user, done) => {
-    console.log('serializing user', user)
-    done(null, user.id)
-});
 
-passport.deserializeUser((user, done) => {
-    // db.all('SELECT id, username FROM users WHERE id = ?', id, function (err, row) {
-    // if (!row) return done(null, false);
-    // done(null, user)
-    // });
-    User.findById(user.id, function (err, user) {
-        done(err, user);
-    });
-});
+// grab the api routes
+const instacloneApi = require('./apiroutes');
 
-//at least checks the db for combo, returns username & id
-passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-}, (email, password, done) => {
-    if (!email || !password) {
-        return done('error', {}, {});
-    }
-
-    // db.all(`SELECT users.email, users.id FROM users WHERE users.email = '${email}' AND users.password = '${password}'`,function(err,rows){
-    //     if (err)
-    //         return done(err);
-    //         if (!rows.length) {
-    //         return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
-    //         } 
-
-    //         if (!( rows[0].password == password))
-    //         return done(null, false, req.flash('loginMessage', 'Wrong password.')); // create the loginMessage and save it to session as flashdata
-
-    //         // all is well, return successful user
-    //         return done(null, rows[0]);             
-    //     });
-
-    db.all(`SELECT users.first_name, users.email, users.id FROM users WHERE users.email = '${email}' AND users.password = '${password}'`)
-        .then((row) => {
-            console.log(row)
-            if (!row || row.length === 0) return done(true, false);
-            return done(null, row);
-        })
+// serve the public folder
+app.use('/', express.static( 'public', {
+	'index': [ 'index.html' ]
 }));
 
+app.use(Auth);
+
+//middleware
+app.use('/apiroutes', instacloneApi);
+//have the application listen on a specific port
+app.listen(4001, () => {
+    console.log('Example app listening on port 4001!');
+});
+
+// use body parser
+authApp.use(parser.json());
+
+authApp.use(expressSession({
+	secret: 'LOLSECRETZ'
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+},(email, password, done) => {
+    // ... app specific implementation
+    // ... if err
+    return done(err, user, info);
+
+    // ... if success
+    return done(null, user);
+  }
+));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.post('/auth/login', (request, response, next) => {
-    passport.authenticate('local', (err, user, info) => {
-        console.log('about to authenticate')
-        console.log(err, user, info)
-        if (err || !user) {
-            console.log(err);
-           next()
-        }
-        
-        request.logIn(user, (err) => {
-            console.log('now in req login', err)
-            if (err) return next(err);
-            response.header('Content-Type', 'application/json');
-            response.send({
-                success: true,
-            });
-        });
-    })(request, response, next);
+// authApp.post('/auth/signup', (request, response) => {
+// 	const {body} = request;
+
+// 	// we want: email address
+// 	// name
+// 	// password
+
+// 	const {email, name, password} = body;
+// 	console.log(email, name, password);
+// 	const isCreated = Users.createNewUser(email, name, password);
+
+// 	response.header('Content-Type', 'application/json');
+// 	if (isCreated) {
+// 		response.send({success: true})
+// 	}
+// 	else {
+// 		response.header('Content-Type', 'application/json');
+// 		response.status(400)
+// 		response.send({error: 'some fields not valid LOL'})
+// 	}
+// });
+
+// login route
+authApp.post('auth/login', (request, response) => {
+	console.log(request.session);
+	if (typeof request.session.instacloneApi === "undefined") {
+		request.session.instacloneApi = 0;
+	}
+	else {
+		request.session.instacloneApi++;
+	}
+	response.send('IN LOGIN ROUTE ' + request.session.instacloneApi)
 });
 
-app.use((req, res) => {
-    res.header('Content-Type', 'application/json')
-    res.send({success: false})
-})
+module.exports = AuthRoutes;
