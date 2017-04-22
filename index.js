@@ -1,122 +1,24 @@
-//include express
 const express = require('express');
+const sqlite = require('sqlite');
+const app = express();
 
-//include sqlite
+const apiRoutes = require('./apiRoutes');
+app.use('/api', apiRoutes(db))
+
 const db = require('sqlite');
-
-// api routes
-const instacloneApi = require('./apiroutes');
-
-// const authentication = require('./authRoutes');
-
-//create an express application
-let app = express();
-const port = 4001;
-
 const DB_NAME = './database.sqlite';
 
-app.use(require('./apiroutes'))
+const parser = require('body-parser');
+app.use(parser.json())
 
-const socket = require('./sqliteui/websocket');
-
-app.use('/', express.static( 'public', {
-	'index': [ 'index.html' ]
-}));
-// app.use('/', express.static('./sqliteui/public', {
-//     'index': ['index.html']
-// }));
-
-//prepend api routes url
-app.use('/api', instacloneApi);
-// app.use('/auth', authentication);
-
-const SocketInst = socket(DB_NAME, app);
-app = SocketInst.app;
-
-
-
-//*******************************//
-//************************************************8*****// here while I test3
-
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-
-passport.serializeUser((user, done) => {
-    console.log('serializing user', user)
-    done(null, user.id)
-});
-
-passport.deserializeUser((user, done) => {
-    // db.all('SELECT id, username FROM users WHERE id = ?', id, function (err, row) {
-    // if (!row) return done(null, false);
-    // done(null, user)
-    // });
-    User.findById(user.id, function (err, user) {
-        done(err, user);
-    });
-});
-
-//at least checks the db for combo, returns username & id
-passport.use(new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password',
-}, (email, password, done) => {
-    if (!email || !password) {
-        return done('error', {}, {});
-    }
-
-    // db.all(`SELECT users.email, users.id FROM users WHERE users.email = '${email}' AND users.password = '${password}'`,function(err,rows){
-    //     if (err)
-    //         return done(err);
-    //         if (!rows.length) {
-    //         return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
-    //         } 
-
-    //         if (!( rows[0].password == password))
-    //         return done(null, false, req.flash('loginMessage', 'Wrong password.')); // create the loginMessage and save it to session as flashdata
-
-    //         // all is well, return successful user
-    //         return done(null, rows[0]);             
-    //     });
-
-    db.all(`SELECT users.first_name, users.email, users.id FROM users WHERE users.email = '${email}' AND users.password = '${password}'`)
-        .then((row) => {
-            console.log(row)
-            if (!row || row.length === 0) return done(true, false);
-            return done(null, row);
-        })
+const expressSession = require('express-session');
+app.use(expressSession({
+    secret: 'VENUS'
 }));
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use('/', express.static('public'));
 
-app.post('/auth/login', (request, response, next) => {
-    passport.authenticate('local', (err, user, info) => {
-        console.log('about to authenticate')
-        console.log(err, user, info)
-        if (err || !user) {
-            console.log(err);
-           next()
-        }
-        
-        request.logIn(user, (err) => {
-            console.log('now in req login', err)
-            if (err) return next(err);
-            response.header('Content-Type', 'application/json');
-            response.send({
-                success: true,
-            });
-        });
-    })(request, response, next);
-});
-
-app.use((req, res) => {
-    res.header('Content-Type', 'application/json')
-    res.send({success: false})
-})
-
-//*******************************//
-//*******************************//
+const passport = require('./passport')(app, db);
 
 Promise.resolve()
     .then(() => db.open(DB_NAME, {
@@ -125,8 +27,8 @@ Promise.resolve()
     .then(() => db.migrate({
         force: 'last'
     }))
-    .then(() => app.listen(port))
+    .then(() => app.listen(4001))
     .then(() => {
-        console.log(`Server started on port ${port}`)
+        console.log(`Server started on port 4001`)
     })
     .catch(err => console.error(err.stack))

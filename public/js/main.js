@@ -113,15 +113,22 @@ function indexPage(){
 				password: password.value,
 			
 			}).then((data) => {
-				login.removeAttribute('disabled');
-				login.value = '';
-				password.removeAttribute('disabled');
-				password.value = '';
-				submit.removeAttribute('disabled');
-				render(data);
-
-			});
-			
+				console.log('data', data);
+				if (data.success) {
+					window.location.href = '/home.html'
+				} else {
+					window.location.href = '/index.html'
+				}
+				// login.removeAttribute('disabled');
+				// login.value = '';
+				// password.removeAttribute('disabled');
+				// password.value = '';
+				// submit.removeAttribute('disabled');
+				// render(data);
+			})
+			// .then((data) => {
+			// 	window.location = "http://www.google.com/"
+			// })	
 		});
 }
 

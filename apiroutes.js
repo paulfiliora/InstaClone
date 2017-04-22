@@ -1,13 +1,13 @@
 const express = require('express');
 
-let app = express();
+// let app = express();
 
 const router = express.Router();
 
 const instaApp = require('./instaApp')
 
-const db = require('sqlite');
-const DB_NAME = './database.sqlite';
+// const db = require('sqlite');
+// const DB_NAME = './database.sqlite';
 
 
 const parser = require('body-parser');
@@ -23,6 +23,9 @@ router.use(parser.json())
 // 	req.body = args;
 // 	next();
 // })
+
+let db;
+
 
 // Get all users + their activity
 router.get('/users', (req, res, next) => {
@@ -209,4 +212,10 @@ router.delete('/:user_id/unfollow/:followed_id', (req, res, next) => {
 // 	})
 // 	.catch(err => console.error(err.stack))
 
-module.exports = router;
+// module.exports = router;
+
+module.exports = function(appDB) {
+    db = appDB;
+    instaApp.init(appDB)
+    return router;
+}
