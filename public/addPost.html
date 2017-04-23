@@ -24,43 +24,8 @@
 	 <!-- Navigation Bar -->
      
 
-<<<<<<< HEAD
-         <!-- ADDED THESE LINES -->
-    <input type="file" class="js-fileElem" multiple accept="image/*" style="display:none">
-    <a href="#" class="js-fileSelect">Select some files</a>
-    <!-- END ADDED THESE LINES -->
-
-<script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
-<script>
-  // Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyCppo_xe4p8brcM3nPdvhgSTc3XJlRXEI0",
-    authDomain: "instaclonne.firebaseapp.com",
-    databaseURL: "https://instaclonne.firebaseio.com",
-    projectId: "instaclonne",
-    storageBucket: "instaclonne.appspot.com",
-    messagingSenderId: "976135241268"
-  };
-  firebase.initializeApp(config);
-
-  // Get a reference to the storage service, which is used to create references in your storage bucket
-	const storage = firebase.storage();
-	// Create a storage reference from our storage service
-	const storageRef = storage.ref();
-
-	// Create a child reference
-	const imagesRef = storageRef.child('images');
-	// imagesRef now points to 'images'
-	// Create a ref to a file - space.jpg
-   const spaceRef = imagesRef.child('space.jpg').putString('Hello, Wrold');
-	// ^^^ now you should have a "path" in your firebase storage that looks like: 'images/space.jpg'
 
 
-</script>
-=======
-
-
->>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 
 
 
@@ -72,10 +37,6 @@
 
 
 		  <!--Import jQuery before materialize.js-->
-<<<<<<< HEAD
-		  <script src="https://www.gstatic.com/firebasejs/3.8.0/firebase.js"></script>
-=======
->>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 		  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 		  <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/semantic.min.js"></script>
 		  <script type="text/javascript" src="js/main.js"></script>
