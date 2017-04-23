@@ -19,7 +19,7 @@ CREATE table posts(
     -- activity_payload NOT NULL
     image_url TEXT NOT NULL,
     descr CHAR(140),
-    Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 INSERT into users (first_name, last_name, profile_pic, email, password) VALUES ('Paul', 'Filiora','https://pbs.twimg.com/profile_images/378800000262587313/ded5133de40ef2e2f4e0815aef640c2b.jpeg', 'p@email.com', 'ppassword');
 INSERT into users (first_name, last_name, profile_pic, email, password) VALUES ('Home', 'Fries', 'https://s-media-cache-ak0.pinimg.com/originals/76/62/99/76629960f3a3c5dd121c3501a605d576.jpg','h@email.com', 'epassword');
