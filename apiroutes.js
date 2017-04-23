@@ -37,9 +37,16 @@ router.get('/users', (req, res, next) => {
         });
 });
 
+<<<<<<< HEAD
 // Get a specified user ## url feeds user_id
 router.get('/user/:user_id', (req, res, next) => {
 	const id = parseInt(req.params.user_id, 10);
+=======
+// Get a specified user via user.id + their activity
+router.get('/user/:user_id', (req, res, next) => {
+	const id = parseInt(req.params.user_id, 10);
+	console.log(id)
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 	instaApp.getUser(id)
 	    .then((data) => {
 	        // SocketInst.broadcast('LOAD_BUFFER');
@@ -55,6 +62,7 @@ router.get('/user/:user_id', (req, res, next) => {
     });
 });
 
+<<<<<<< HEAD
 // Get a specified post ## url feeds post_id
 router.get('/post/:post_id', (req, res, next) => {
 	const id = parseInt(req.params.post_id, 10);
@@ -76,6 +84,11 @@ router.get('/post/:post_id', (req, res, next) => {
 // get users that $user_id follows
 router.get('/:user_id/followedusers', (req, res) => {
 	const id = parseInt(req.params.user_id, 10);
+=======
+// get users that $user_id follows
+router.get('/:follower_id/followedusers', (req, res) => {
+	const id = parseInt(req.params.follower_id, 10);
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 	instaApp.getFollowed(id)
     .then((data) => {
         // SocketInst.broadcast('LOAD_BUFFER');
@@ -91,7 +104,11 @@ router.get('/:user_id/followedusers', (req, res) => {
     });
 });
 
+<<<<<<< HEAD
 // create a post. ##url feeds the user_id + followed_id. req targets posts table columns
+=======
+// create a post
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 router.post('/:user_id/post', (req, res, next) => {
 	let args = {};
     for (const prop in req.body) {
@@ -110,10 +127,17 @@ router.post('/:user_id/post', (req, res, next) => {
         });
 });
 
+<<<<<<< HEAD
 // Follow a user ##url feeds the user_id + followed_id.
 router.post('/:user_id/follow/:followed_id', (req, res, next) => {
     const user_id = parseInt(req.params.user_id, 10);
     const followed_id = parseInt(req.params.followed_id, 10);
+=======
+// Follow a user
+router.post('/:user_id/follow/:followed_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const followed_id = parseInt(req.params.follower_id, 10);
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 	instaApp.followUser(user_id, followed_id)
         .then((data) => {
             res.header('Content-Type', 'application/json');
@@ -128,6 +152,7 @@ router.post('/:user_id/follow/:followed_id', (req, res, next) => {
         });
 });
 
+<<<<<<< HEAD
 // Edit a post ##url feeds the user_id + post_id. req  posts table column 'descr'
 router.put('/:user_id/update_post/:post_id', (req, res, next) => {
     const user_id = parseInt(req.params.user_id, 10);
@@ -139,6 +164,17 @@ router.put('/:user_id/update_post/:post_id', (req, res, next) => {
             res.header('Content-Type', 'application/json');
             res.send({
             	update: data,
+=======
+// Edit a post
+router.put('/:user_id/follow/:followed_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const followed_id = parseInt(req.params.follower_id, 10);
+	instaApp.followUser(user_id, followed_id)
+        .then((data) => {
+            res.header('Content-Type', 'application/json');
+            res.send({
+            	followed_users: data,
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
             	numResults: data.length
         	});
         })
@@ -148,11 +184,19 @@ router.put('/:user_id/update_post/:post_id', (req, res, next) => {
         });
 });
 
+<<<<<<< HEAD
 // Delete a post ##url feeds the user_id + post_id.
 router.delete('/:user_id/delete_post/:post_id', (req, res, next) => {
     const user_id = parseInt(req.params.user_id, 10);
     const post_id = parseInt(req.params.post_id, 10);
 	instaApp.deletePost(user_id, post_id)
+=======
+// Delete a post
+router.delete('/:user_id/:post_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const post_id = parseInt(req.params.follower_id, 10);
+	instaApp.followUser(user_id, post_id)
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({
@@ -166,11 +210,19 @@ router.delete('/:user_id/delete_post/:post_id', (req, res, next) => {
         });
 });
 
+<<<<<<< HEAD
 // Unfollow a user ##url feeds the user_id + followed_id.
 router.delete('/:user_id/unfollow/:followed_id', (req, res, next) => {
     const user_id = parseInt(req.params.user_id, 10);
     const followed_id = parseInt(req.params.followed_id, 10);
 	instaApp.unfollow(user_id, followed_id)
+=======
+// Unfollow a user
+router.delete('/:user_id/unfollow/:followed_id', (req, res, next) => {
+    const user_id = parseInt(req.params.user_id, 10);
+    const followed_id = parseInt(req.params.follower_id, 10);
+	instaApp.followUser(user_id, followed_id)
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
         .then((data) => {
             res.header('Content-Type', 'application/json');
             res.send({

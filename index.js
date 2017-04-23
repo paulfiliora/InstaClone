@@ -7,8 +7,11 @@ const db = require('sqlite');
 // api routes
 const instacloneApi = require('./apiroutes');
 
+<<<<<<< HEAD
 // const authentication = require('./authRoutes');
 
+=======
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 //create an express application
 let app = express();
 const port = 4001;
@@ -16,6 +19,7 @@ const port = 4001;
 const DB_NAME = './database.sqlite';
 
 app.use(require('./apiroutes'))
+<<<<<<< HEAD
 
 const socket = require('./sqliteui/websocket');
 
@@ -117,6 +121,21 @@ app.use((req, res) => {
 
 //*******************************//
 //*******************************//
+=======
+
+const socket = require('./sqliteui/websocket');
+
+app.use('/', express.static( 'public', {
+	'index': [ 'index.html' ]
+}));
+
+
+//prepend api routes url
+app.use('/api', instacloneApi);
+
+const SocketInst = socket(DB_NAME, app);
+app = SocketInst.app;
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 
 Promise.resolve()
     .then(() => db.open(DB_NAME, {
@@ -126,7 +145,11 @@ Promise.resolve()
         force: 'last'
     }))
     .then(() => app.listen(port))
+<<<<<<< HEAD
     .then(() => {
         console.log(`Server started on port ${port}`)
     })
+=======
+    .then(() => {console.log(`Server started on port ${port}`)})
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
     .catch(err => console.error(err.stack))

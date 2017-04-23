@@ -89,9 +89,12 @@ if (document.querySelector('.home-page') !== null) {
 if (document.querySelector('.users-page') !== null) {
 	usersPage();
 }
+<<<<<<< HEAD
 if (document.querySelector('.addPost-page') !== null) {
 	addPostPage();
 }
+=======
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 
 
 
@@ -100,7 +103,10 @@ if (document.querySelector('.addPost-page') !== null) {
 
 // Taking login and Password input value and sending it to DB using API routes
 function indexPage(){
+<<<<<<< HEAD
 		
+=======
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
  		const submit = document.querySelector('.js-submit')
  			submit.addEventListener('click', (e) => {
 			e.preventDefault();
@@ -111,8 +117,13 @@ function indexPage(){
 			password.setAttribute('disabled', 'disabled');
 	        console.log(login.value);
 	        console.log(password.value);
+<<<<<<< HEAD
 			POST('/auth/login', {
 				email: login.value,
+=======
+			POST('/api/users', {
+				login: login.value,
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 				password: password.value,
 			
 			}).then((data) => {
@@ -121,7 +132,11 @@ function indexPage(){
 				password.removeAttribute('disabled');
 				password.value = '';
 				submit.removeAttribute('disabled');
+<<<<<<< HEAD
 				console.log(data);
+=======
+				render(data);
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 
 			});
 			
@@ -215,7 +230,10 @@ function indexPage(){
 
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> 204ab2fcda8abf3433153c872ef368c37adbfdf6
 })();
