@@ -1,73 +1,106 @@
+const express = require('express');
 
-// //*******************************//
-// //************************************************8*****// here while I test3
+const authApp = express();
 
-// const passport = require('passport');
-// const LocalStrategy = require('passport-local').Strategy;
+const Users = require('./users')
 
-// passport.serializeUser((user, done) => {
-//     done(null, user)
+let app = express();
+const port = 4001;
+
+// data base using sqlite link
+const db = require('sqlite');
+const DB_NAME = './database.sqlite';
+
+// parser session middleware
+const parser = require('body-parser');
+
+
+// grab authentication routes
+const Auth = require('./authRoutes');
+
+//authorize user
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+
+
+// grab the api routes
+const instacloneApi = require('./apiroutes');
+
+// serve the public folder
+app.use('/', express.static( 'public', {
+	'index': [ 'index.html' ]
+}));
+
+app.use(Auth);
+
+//middleware
+app.use('/apiroutes', instacloneApi);
+//have the application listen on a specific port
+app.listen(4001, () => {
+    console.log('Example app listening on port 4001!');
+});
+
+// use body parser
+authApp.use(parser.json());
+
+authApp.use(expressSession({
+	secret: 'LOLSECRETZ'
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+passport.use(new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password'
+},(email, password, done) => {
+    // ... app specific implementation
+    // ... if err
+    return done(err, user, info);
+
+    // ... if success
+    return done(null, user);
+  }
+));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// authApp.post('/auth/signup', (request, response) => {
+// 	const {body} = request;
+
+// 	// we want: email address
+// 	// name
+// 	// password
+
+// 	const {email, name, password} = body;
+// 	console.log(email, name, password);
+// 	const isCreated = Users.createNewUser(email, name, password);
+
+// 	response.header('Content-Type', 'application/json');
+// 	if (isCreated) {
+// 		response.send({success: true})
+// 	}
+// 	else {
+// 		response.header('Content-Type', 'application/json');
+// 		response.status(400)
+// 		response.send({error: 'some fields not valid LOL'})
+// 	}
 // });
 
-// passport.deserializeUser((user, done) => {
-//     // db.all('SELECT id, username FROM users WHERE id = ?', id, function (err, row) {
-//     // if (!row) return done(null, false);
-//     // done(null, user)
-//     // });
-//     User.findById(id, function (err, user) {
-//         done(err, user);
-//     });
-// });
+// login route
+authApp.post('auth/login', (request, response) => {
+	console.log(request.session);
+	if (typeof request.session.instacloneApi === "undefined") {
+		request.session.instacloneApi = 0;
+	}
+	else {
+		request.session.instacloneApi++;
+	}
+	response.send('IN LOGIN ROUTE ' + request.session.instacloneApi)
+});
 
-// //at least checks the db for combo, returns username & id
-// passport.use(new LocalStrategy({
-//     usernameField: 'email',
-//     passwordField: 'password',
-// }, (email, password, done) => {
-//     if (!email || !password) {
-//         return done('error', {}, {});
-//     }
-
-//     // db.all(`SELECT users.email, users.id FROM users WHERE users.email = '${email}' AND users.password = '${password}'`,function(err,rows){
-//     //     if (err)
-//     //         return done(err);
-//     //         if (!rows.length) {
-//     //         return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
-//     //         } 
-
-//     //         if (!( rows[0].password == password))
-//     //         return done(null, false, req.flash('loginMessage', 'Wrong password.')); // create the loginMessage and save it to session as flashdata
-
-//     //         // all is well, return successful user
-//     //         return done(null, rows[0]);             
-//     //     });
-
-//     db.all(`SELECT users.email, users.id FROM users WHERE users.email = '${email}' AND users.password = '${password}'`)
-//         .then((row) => {
-//             console.log(row)
-//             if (!row) return done(null, false);
-//             return done(null, row);
-//         })
-// }));
-
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// app.post('/auth/login', (request, response, next) => {
-//     passport.authenticate('local', (err, user, info) => {
-//         if (err) console.log(err);
-//         if (!user) console.log(user);
-
-//         request.logIn(user, (err) => {
-//             console.log('now in req login')
-//             if (err) return next(err);
-//             response.header('Content-Type', 'application/json');
-//             response.send({
-//                 success: true,
-//             });
-//         });
-//     })(request, response, next);
-// });
-
-// //*******************************//
-// //*******************************//
+module.exports = AuthRoutes;
