@@ -171,7 +171,6 @@
 			container.innerHTML = "";
 
 			for (const feed of posts.followed_users) {
-				
 				const card = document.createElement('div');
 				card.innerHTML = `
   <div class="content">
@@ -198,44 +197,75 @@
       <i class="heart outline icon"></i>
       <input type="text" placeholder="Add Comment...">
     </div>
-  </div>`
-
-				// const image = document.createElement('div');
-				// image.classList.add('image')
-				// image.innerHTML = `<img src="${feed.image}">`;
-
-
-
-
-				// const content = document.createElement('div');
-				// content.classList.add("content")
-				// content.innerHTML = `
-				// 				<div class="content">
-				// 					<div class="right floated meta">14h</div>
-				// 					<img class="ui avatar image" src="/images/avatar/large/elliot.jpg"> Elliot
-				// 				</div>
-				// 				<a class="header">${feed.user_fname}</a>
-				// 				<div class="meta">
-				// 					<span class="date">${feed.Timestamp.split(' ',1)}</span>
-				// 				</div>
-				// 				<div class="description">
-				// 					${feed.description}
-				// 				</div>
-				// 				 `
-								 
-								 
-								 
-								 
-								 ;
+  </div>`;
 				card.classList.add('ui', 'card')
-
 				container.appendChild(card);
-				// card.appendChild(image);
-				// card.appendChild(content);
 			}
 		}
 	}
 
+	// getting user sign up information and sending it to DB
+	function usersPage() {
+		GET('/api/users')
+			.then((posts) => {
+				renderFeed(posts);
+			});
+
+		function renderFeed(posts) {
+			const accounts = posts.users
+			const preview = accounts.reduce((hash, users) => Object.assign(
+				hash, {
+					[users.id]: (hash[users.id] || []).concat([users])
+				}
+			), {})
+
+console.log(preview)
+console.log(accounts)
+
+			const container = document.querySelector('.js-main');
+			container.innerHTML = "";
+
+			for (const feed of accounts) {
+				console.log(feed)
+
+				const card = document.createElement('div');
+				card.innerHTML = `
+<div class="content">
+				<div class="top">
+					 <div class="left floated author">
+					   	<img class="ui avatar image" src="http://assets.pokemon.com/assets/cms2/img/pokedex/full//722.png"> <b>Poke Boy </b>
+					 </div>
+					 <span class="right floated">
+					  	 <button class="ui button">Unfollow</button>
+					 </span>
+				</div>
+				<br><br>
+				<div class="ui divider"></div>
+				<div class="usersPhtoto">
+					<div class="ui three doubling cards">
+					  <div class="card">
+					    <div class="image">
+					      <img src="http://assets.pokemon.com/assets/cms2/img/pokedex/full//722.png">
+					    </div>
+					  </div>
+					  <div class="card">
+					    <div class="image">
+					      <img src="http://assets.pokemon.com/assets/cms2/img/pokedex/full//722.png">
+					    </div>
+					  </div>
+					  <div class="card">
+					    <div class="image">
+					      <img src="http://assets.pokemon.com/assets/cms2/img/pokedex/full//722.png">
+					    </div>
+					  </div>
+					</div>
+				</div>			     
+			</div>`;
+				card.classList.add('ui', 'card')
+				container.appendChild(card);
+			}
+		}
+	}
 
 
 

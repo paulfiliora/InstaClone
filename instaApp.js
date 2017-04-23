@@ -10,13 +10,15 @@ instaApp.init = function (db) {
 // Get all users + their activity
 instaApp.getUsers = () => {
     return instaApp.db.all(`SELECT 
+                    users.id AS id,
                     users.first_name AS firstName,
                     users.last_name AS lastName,
                     posts.image_url AS image,
                     posts.descr AS description,
-                    posts.Timestamp
+                    posts.timestamp
                 FROM users 
-                    INNER JOIN posts ON posts.user_id = users.id`)
+                    INNER JOIN posts ON posts.user_id = users.id 
+                    ORDER BY id ASC`)
 };
 
 // Get a specified user via user.id + their activity
@@ -24,9 +26,10 @@ instaApp.getUser = (user_id) => {
     return instaApp.db.all(`SELECT 
                     users.first_name AS firstName,
                     users.last_name AS lastName,
+                    users.profile_pic AS profile_pic,
                     posts.image_url AS image,
                     posts.descr AS description,
-                    posts.Timestamp AS timestamp
+                    posts.timestamp
                 FROM users 
                     INNER JOIN posts ON posts.user_id = users.id
                 WHERE users.id = ${user_id}
@@ -40,7 +43,7 @@ instaApp.getPost = (post_id) => {
                     users.last_name AS lastName,
                     posts.image_url AS image,
                     posts.descr AS description,
-                    posts.Timestamp
+                    posts.timestamp
                 FROM posts
                     INNER JOIN users ON posts.user_id = users.id
                 WHERE posts.post_id = ${post_id}`)
@@ -54,12 +57,12 @@ instaApp.getFollowed = (user_id) => {
                     users.profile_pic AS profile_pic,
                     posts.image_url AS image,
                     posts.descr AS description,
-                    posts.Timestamp
+                    posts.timestamp
                 FROM users
                     INNER JOIN followers ON followers.followed_id = users.id 
                     INNER JOIN posts ON posts.user_id = users.id
                 WHERE followers.user_id = ${user_id}
-                ORDER BY posts.Timestamp DESC`)
+                ORDER BY posts.timestamp DESC`)
 };
 
 // Create a user //NO ROUTE YET

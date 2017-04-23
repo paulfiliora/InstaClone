@@ -1,6 +1,6 @@
 const express = require('express');
 const sqlite = require('sqlite');
-const app = express();
+let app = express();
 const db = require('sqlite');
 const expressSession = require('express-session');
 const parser = require('body-parser');
@@ -15,6 +15,16 @@ app.use(expressSession({
     saveUninitialized: false
 }));
 app.use('/', express.static('public'));
+
+//WebUi for testing sql
+const socket = require('./sqliteui/websocket');
+// app.use('/', express.static('./sqliteui/public', {
+//     'index': ['index.html']
+// }));
+const SocketInst = socket(DB_NAME, app);
+app = SocketInst.app;
+
+
 
 const passport = require('./passport')(app, db);
 
