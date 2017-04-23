@@ -89,6 +89,9 @@ if (document.querySelector('.home-page') !== null) {
 if (document.querySelector('.users-page') !== null) {
 	usersPage();
 }
+if (document.querySelector('.addPost-page') !== null) {
+	addPostPage();
+}
 
 
 
@@ -118,7 +121,7 @@ function indexPage(){
 				password.removeAttribute('disabled');
 				password.value = '';
 				submit.removeAttribute('disabled');
-				render(data);
+				console.log(data);
 
 			});
 			
@@ -192,6 +195,9 @@ function indexPage(){
 		 card.appendChild(content);
 	    
 }
+
+
+
 
 
 
