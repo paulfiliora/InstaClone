@@ -1,21 +1,19 @@
 const express = require('express');
 const sqlite = require('sqlite');
 const app = express();
-
-const apiRoutes = require('./apiRoutes');
-app.use('/api', apiRoutes(db))
-
 const db = require('sqlite');
-const DB_NAME = './database.sqlite';
-
-const parser = require('body-parser');
-app.use(parser.json())
-
 const expressSession = require('express-session');
-app.use(expressSession({
-    secret: 'VENUS'
-}));
+const parser = require('body-parser');
+const DB_NAME = './database.sqlite';
+const apiRoutes = require('./apiRoutes');
 
+app.use('/api', apiRoutes(db))
+app.use(parser.json())
+app.use(expressSession({
+    secret: 'nycda',
+    resave: false,
+    saveUninitialized: false
+}));
 app.use('/', express.static('public'));
 
 const passport = require('./passport')(app, db);

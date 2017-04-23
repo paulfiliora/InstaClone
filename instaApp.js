@@ -51,6 +51,7 @@ instaApp.getFollowed = (user_id) => {
     return instaApp.db.all(`SELECT 
                     users.first_name AS user_fname,
                     users.last_name AS user_lname,
+                    users.profile_pic AS profile_pic,
                     posts.image_url AS image,
                     posts.descr AS description,
                     posts.Timestamp
