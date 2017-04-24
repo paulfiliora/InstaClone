@@ -17,11 +17,11 @@ authApp.use(expressSession({
 }));
 
 authApp.post('/auth/register', (request, response, next) => {
-    let args = {};
-    for (const prop in request.body) {
-        args['$' + prop] = request.body[prop];
-    }
-    request.body = args;
+    // let args = {};
+    // for (const prop in request.body) {
+    //     args['$' + prop] = request.body[prop];
+    // }
+    // request.body = args;
 
     // const {
     //     body
@@ -33,13 +33,13 @@ authApp.post('/auth/register', (request, response, next) => {
     //     password
     // } = body;
     // const isCreated = instaApp.createUser(first_name, last_name, email, password);
-    instaApp.createUser(request.body)
-        // .then((data) => {
-        //     res.header('Content-Type', 'application/json');
-        //     res.send({
-        //         post: data
-        //     });
-        // })
+    const isCreated = instaApp.createUser(request.body)
+        .then((data) => {
+            response.header('Content-Type', 'application/json');
+            response.send({
+                success: true
+            })
+        })
         .catch((e) => {
             console.log(e)
             response.status(401);
