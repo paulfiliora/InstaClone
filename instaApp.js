@@ -76,11 +76,7 @@ instaApp.getFollowed = (user_id) => {
 
 //Create User
 instaApp.createUser = (req) => {
-    console.log(req)
-    // return instaApp.db.run(`INSERT INTO users (first_name, last_name, email, password) VALUES ($first_name, $last_name, $email, $password)`, req)
-    return instaApp.db.run(`INSERT INTO users (first_name, last_name, profile_pic, email, password) VALUES ("name", "last_name", "prof","email", "password")`)
-
-    
+    return instaApp.db.run(`INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)`, req.first_name, req.last_name, req.email, req.password)    
 };
 // Create a post
 instaApp.createPost = (user_id, req) => {
