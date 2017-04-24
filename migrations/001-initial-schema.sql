@@ -4,8 +4,8 @@ CREATE TABLE users(
     first_name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     profile_pic TEXT,
-    email TEXT,
-    password TEXT -- sha256 hash of the plain-text password
+    email TEXT NOT NULL,
+    password TEXT NOT NULL -- sha256 hash of the plain-text password
     -- salt TEXT NOT NULL -- salt that is appended to the password before it is hashed
 );
 CREATE table followers(
