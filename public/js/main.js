@@ -206,50 +206,54 @@
 				}
 			), {})
 
-			console.log(preview)
-			console.log(accounts)
+			// console.log(preview)
+			// console.log(accounts)
 
 			const container = document.querySelector('.js-main');
 			container.innerHTML = "";
 
-			for (const feed in accounts) {
-				console.log(feed)
+			for (const feed in preview) {
+				if (preview.hasOwnProperty(feed)) {
+    				const userRows = preview[feed]
+    				console.log(userRows)
+    				console.log(userRows[0].firstName)
 
 				const card = document.createElement('div');
 				card.innerHTML = `
 <div class="content">
-				<div class="top">
-					 <div class="left floated author">
-					   	<img class="ui avatar image" src="http://assets.pokemon.com/assets/cms2/img/pokedex/full//722.png"> <b>Poke Boy </b>
-					 </div>
-					 <span class="right floated">
-					  	 <button class="ui button">Unfollow</button>
-					 </span>
-				</div>
-				<br><br>
-				<div class="ui divider"></div>
-				<div class="usersPhtoto">
-					<div class="ui three doubling cards">
-					  <div class="card">
-					    <div class="image">
-					      <img src="http://assets.pokemon.com/assets/cms2/img/pokedex/full//722.png">
-					    </div>
-					  </div>
-					  <div class="card">
-					    <div class="image">
-					      <img src="http://assets.pokemon.com/assets/cms2/img/pokedex/full//722.png">
-					    </div>
-					  </div>
-					  <div class="card">
-					    <div class="image">
-					      <img src="http://assets.pokemon.com/assets/cms2/img/pokedex/full//722.png">
-					    </div>
-					  </div>
-					</div>
-				</div>			     
-			</div>`;
+	<div class="top">
+		 <div class="left floated author">
+		   	<img class="ui avatar image" src="${userRows[0].profilePic}"> <b>${userRows[0].firstName} </b>
+		 </div>
+		 <span class="right floated">
+		  	 <button class="ui button">Unfollow</button>
+		 </span>
+	</div>
+	<br><br>
+	<div class="ui divider"></div>
+	<div class="usersPhtoto">
+		<div class="ui three doubling cards">
+		  <div class="card">
+		    <div class="image">
+		      <img src="${userRows[0].image}">
+		    </div>
+		  </div>
+		  <div class="card">
+		    <div class="image">
+		      <img src="${userRows[1].image}">
+		    </div>
+		  </div>
+		  <div class="card">
+		    <div class="image">
+		      <img src="${userRows[2].image}">
+		    </div>
+		  </div>
+		</div>
+	</div>			     
+</div>`;
 				card.classList.add('ui', 'card')
 				container.appendChild(card);
+			    }
 			}
 		}
 	}

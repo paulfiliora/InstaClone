@@ -17,22 +17,6 @@ authApp.use(expressSession({
 }));
 
 authApp.post('/auth/register', (request, response, next) => {
-    // let args = {};
-    // for (const prop in request.body) {
-    //     args['$' + prop] = request.body[prop];
-    // }
-    // request.body = args;
-
-    // const {
-    //     body
-    // } = request;
-    // const {
-    //     first_name,
-    //     last_name,
-    //     email,
-    //     password
-    // } = body;
-    // const isCreated = instaApp.createUser(first_name, last_name, email, password);
     const isCreated = instaApp.createUser(request.body)
         .then((data) => {
             response.header('Content-Type', 'application/json');
@@ -44,20 +28,6 @@ authApp.post('/auth/register', (request, response, next) => {
             console.log(e)
             response.status(401);
         });
-
-
-    // response.header('Content-Type', 'application/json');
-    // if (isCreated) {
-    //     response.send({
-    //         success: true
-    //     })
-    // } else {
-    //     response.header('Content-Type', 'application/json');
-    //     response.status(400)
-    //     response.send({
-    //         error: 'some fields not valid'
-    //     })
-    // }
 });
 
 module.exports = authApp;

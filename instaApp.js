@@ -8,25 +8,17 @@ instaApp.init = function (db) {
 }
 
 // Get all users + their activity
-// instaApp.getUsers = () => {
-//     return instaApp.db.all(`SELECT 
-//                     users.id AS id,
-//                     users.first_name AS firstName,
-//                     users.last_name AS lastName,
-//                     posts.image_url AS image,
-//                     posts.descr AS description,
-//                     posts.timestamp
-//                 FROM users 
-//                     INNER JOIN posts ON posts.user_id = users.id 
-//                     ORDER BY id ASC`)
-// };
-
 instaApp.getUsers = () => {
     return instaApp.db.all(`SELECT 
                     users.id AS id,
                     users.first_name AS firstName,
-                    users.last_name AS lastName
+                    users.last_name AS lastName,
+                    users.profile_pic AS profilePic,
+                    posts.image_url AS image,
+                    posts.descr AS description,
+                    posts.timestamp
                 FROM users 
+                    INNER JOIN posts ON posts.user_id = users.id 
                     ORDER BY id ASC`)
 };
 
