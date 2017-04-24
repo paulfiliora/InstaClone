@@ -8,16 +8,25 @@ instaApp.init = function (db) {
 }
 
 // Get all users + their activity
+// instaApp.getUsers = () => {
+//     return instaApp.db.all(`SELECT 
+//                     users.id AS id,
+//                     users.first_name AS firstName,
+//                     users.last_name AS lastName,
+//                     posts.image_url AS image,
+//                     posts.descr AS description,
+//                     posts.timestamp
+//                 FROM users 
+//                     INNER JOIN posts ON posts.user_id = users.id 
+//                     ORDER BY id ASC`)
+// };
+
 instaApp.getUsers = () => {
     return instaApp.db.all(`SELECT 
                     users.id AS id,
                     users.first_name AS firstName,
-                    users.last_name AS lastName,
-                    posts.image_url AS image,
-                    posts.descr AS description,
-                    posts.timestamp
+                    users.last_name AS lastName
                 FROM users 
-                    INNER JOIN posts ON posts.user_id = users.id 
                     ORDER BY id ASC`)
 };
 
@@ -65,11 +74,14 @@ instaApp.getFollowed = (user_id) => {
                 ORDER BY posts.timestamp DESC`)
 };
 
-// Create a user //NO ROUTE YET
-instaApp.createUser = (user_id, req) => {
-    return instaApp.db.run(`INSERT INTO users (first_name, last_name, email, password) values ($first_name, $last_name, $email, $password)`, req)
-};
+//Create User
+instaApp.createUser = (req) => {
+    console.log(req)
+    // return instaApp.db.run(`INSERT INTO users (first_name, last_name, email, password) VALUES ($first_name, $last_name, $email, $password)`, req)
+    return instaApp.db.run(`INSERT INTO users (first_name, last_name, profile_pic, email, password) VALUES ("name", "last_name", "prof","email", "password")`)
 
+    
+};
 // Create a post
 instaApp.createPost = (user_id, req) => {
     return instaApp.db.run(`INSERT INTO posts (user_id, image_url, descr) values (${user_id}, $image_url, $descr)`, req)
