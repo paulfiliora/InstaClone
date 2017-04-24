@@ -80,7 +80,7 @@
 		signupPage();
 	}
 	if (document.querySelector('.profile-page') !== null) {
-		profillePage();
+		profilePage();
 	}
 	if (document.querySelector('.home-page') !== null) {
 		homePage();
@@ -236,7 +236,7 @@ console.log(accounts)
 					   	<img class="ui avatar image" src="http://assets.pokemon.com/assets/cms2/img/pokedex/full//722.png"> <b>Poke Boy </b>
 					 </div>
 					 <span class="right floated">
-					  	 <button class="ui button">Unfollow</button>
+					  	 <button class="ui button">follow</button>
 					 </span>
 				</div>
 				<br><br>
@@ -266,6 +266,77 @@ console.log(accounts)
 			}
 		}
 	}
+
+function profilePage()  {
+
+		GET('/api/user/1')
+			.then((posts) => {
+				renderFeed(posts);
+
+			});
+
+
+		function renderFeed(posts) {
+
+			// const main = document.querySelector('.js-main');
+			// main.innerHTML = "";
+
+			// const profileHead = document.querySelector('.js-uicard')
+			// profileHead.innerHTML = "";
+
+
+			const container = document.querySelector('.js-card');
+			// container.innerHTML = "";
+
+				
+
+			for (const feed of posts.user) {
+            console.log(feed);
+
+
+//             const header = document.createElement('div');
+//             header.classList.add('center', 'extra', 'content');	
+// 			header.innerHTML = `
+//   <h2 class="ui header">
+//   <img src="${feed.profile_pic}" class="ui circular image">
+//    <span> ${feed.firstName} ${feed.lastName}</span>
+//   </h2>
+// `;
+// 			profileHead.appendChild(header);
+//             main.appendChild(profileHead);
+
+
+		// adding posts and description to profile page inside of ui three stackable cards.
+				const card = document.createElement('div');
+				card.classList.add('card')
+
+				const fullName = `${feed.firstName} ${feed.lastName}`;
+				card.innerHTML = `
+<div class="image" width="150px" height="150px";>
+	<img src="${feed.image}">
+</div>
+<div class="content">
+	<a class="header">${fullName}</a>
+<div class="meta">
+	<span class="date">${feed.timestamp}</span>
+</div>
+<div class="description">
+	${feed.description};
+</div>
+`;
+									
+						container.appendChild(card);
+						// main.appendChild(container);
+						
+				
+
+
+			}
+		}
+	}
+  	
+
+
 
 
 

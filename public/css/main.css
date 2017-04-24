@@ -18,7 +18,7 @@
 	margin: auto;
 }
 .ui.three.stackable.cards {
-	width: 70%;
+	width: 80%;
 	margin: auto;
 }
 .ui.form {
@@ -31,6 +31,12 @@
 .top {
 	clear: both;
 }
+
+.main {
+	width: 100%;
+	
+}
+
 
 
 
