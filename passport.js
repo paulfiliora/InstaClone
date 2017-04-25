@@ -61,13 +61,11 @@ module.exports = function(app, db) {
     });
 
     app.use((request, response, next) => {
-        // console.log('in middleware')
         console.log('req.user :',request.user)
-        // console.log('req.session :',request.session)
-        console.log('req,isAuth :',request.isAuthenticated());
+        console.log('req.isAuth :',request.isAuthenticated());
 
         if (request.isAuthenticated()) {
-            console.log('shit is authenticated')
+            console.log('user is authenticated')
             next();
             return ;
         }
