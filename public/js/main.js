@@ -78,7 +78,7 @@
 		signupPage();
 	}
 	if (document.querySelector('.profile-page') !== null) {
-		profillePage();
+		profilePage();
 	}
 	if (document.querySelector('.home-page') !== null) {
 		homePage();
@@ -228,21 +228,21 @@
 	</div>
 	<br><br>
 	<div class="ui divider"></div>
-	<div class="usersPhtoto">
+	<div class="usersPhoto">
 		<div class="ui three doubling cards">
 		  <div class="card">
-		    <div class="image">
-		      <img src="${userRows[0].image}">
+		    <div class="image imagesCard">
+		      <img class="image userimg" src="${userRows[0].image}">
 		    </div>
 		  </div>
 		  <div class="card">
-		    <div class="image">
-		      <img src="${userRows[1].image}">
+		    <div class="image imagesCard">
+		      <img class="image userimg" src="${userRows[1].image}">
 		    </div>
 		  </div>
 		  <div class="card">
-		    <div class="image">
-		      <img src="${userRows[2].image}">
+		    <div class="image imagesCard">
+		      <img class="image userimg" src="${userRows[2].image}">
 		    </div>
 		  </div>
 		</div>
@@ -255,7 +255,44 @@
 		}
 	}
 
+	// adding profile page function 
+	function profilePage() {
+		const userId = localStorage.getItem('user_id')
+		GET('/api/user/' + userId)
+			.then((posts) => {
+				renderFeed(posts);
+			});
 
+		function renderFeed(posts) {
+
+			const container = document.querySelector('.js-stackable');
+			container.innerHTML = " ";
+
+			for (const post of posts.user) {
+				console.log(post);
+				console.log(post.image);
+
+				const card = document.createElement('div');
+				card.innerHTML = `
+<div class="image">
+    <img src="${post.image}">
+</div>
+<div class="content">
+    <a class="header">${post.firstName}</a>
+    <div class="meta">
+        <span class="date">${post.timestamp}</span>
+    </div>
+    <div class="description">
+        ${post.description}
+    </div>
+</div>
+        `;
+				card.classList.add('card')
+				container.appendChild(card);
+
+			}
+		}
+	}
 
 
 	function postPage() {
@@ -305,7 +342,7 @@
 		firebase.initializeApp(config);
 		// Get a reference to the storage service, which is used to create references in your storage bucket
 		const storageRef = firebase.storage().ref().child(FILE_STORAGE_REF);
-let imageURL = []
+		let imageURL = []
 
 		uploadFiles('.js-fileSelect', '.js-fileElem', (files) => {
 			if (!storageRef) {
@@ -326,7 +363,7 @@ let imageURL = []
 			});
 		}); // upload files
 
-// console.log(imageURL)
+		// console.log(imageURL)
 		// add new post
 
 		const createPost = () => {
