@@ -259,6 +259,7 @@
 
 
 	function postPage() {
+		const userId = localStorage.getItem('user_id')
 
 		const validate = () => {
 			throw new Error('This is a required arg');
@@ -267,8 +268,7 @@
 		const uploadFiles = (
 			fileSelectSel = validate(),
 			fileElemSel = validate(),
-			onFileChanged = validate(),
-			onClicked = validate()
+			onFileChanged = validate()
 		) => {
 			// select anchor tag and file input
 			const fileSelect = document.querySelector(fileSelectSel);
@@ -281,13 +281,15 @@
 			// click handler for fileElem
 			fileSelect.addEventListener('click', (e) => {
 				e.preventDefault();
-				onClicked();
+				fileElem && fileElem.click();
 			});
 
 			// change handler for fileSelect
 			fileElem.addEventListener('change', (e) => onFileChanged(e.target.files))
 		} // uploadFiles
 
+
+		// Initialize Firebase
 		const config = {
 			apiKey: "AIzaSyAHWq2DXh2OFoRXYor72qocaNAhJZZuBGc",
 			authDomain: "instaclone-f8c2e.firebaseapp.com",
@@ -296,23 +298,20 @@
 			storageBucket: "instaclone-f8c2e.appspot.com",
 			messagingSenderId: "21242011021"
 		};
+		// Name of file storage ref "folder"
 		const FILE_STORAGE_REF = 'images';
 
 		// initialize firebase
 		firebase.initializeApp(config);
 		// Get a reference to the storage service, which is used to create references in your storage bucket
 		const storageRef = firebase.storage().ref().child(FILE_STORAGE_REF);
-
-		let filesToUpload = [];
+let imageURL = []
 
 		uploadFiles('.js-fileSelect', '.js-fileElem', (files) => {
-			filesToUpload = filesToUpload.concat(Array.from(files));
-			console.log(filesToUpload)
-		}, () => {
 			if (!storageRef) {
 				throw new Error('Storage Ref not set!');
 			}
-			const fileUploads = filesToUpload.map((currFile) => {
+			const fileUploads = Array.from(files).map((currFile) => {
 				// we store the name of the file as a storage ref
 				const fileRef = storageRef.child(currFile.name);
 				// we return a promise where we first "put" or upload the file
@@ -323,13 +322,33 @@
 
 			Promise.all(fileUploads).then((items) => {
 				console.log(items);
-				filesToUpload = [];
+				imageURL = items[0]
 			});
 		}); // upload files
-		
-		const userId = localStorage.getItem('user_id')
-		POST('/api/' + userId + '/post')
+
+// console.log(imageURL)
 		// add new post
+
+		const createPost = () => {
+			const description = document.querySelector('.js-description');
+
+			description.setAttribute('disabled', 'disabled');
+			POST('/api/' + userId + '/post', {
+				descr: description.value,
+				image_url: imageURL
+			}).then((data) => {
+				console.log(data)
+				description.removeAttribute('disabled');
+				description.value = '';
+			});
+		}
+
+
+		document.querySelector('.js-createPost').addEventListener('click', (e) => {
+			e.preventDefault();
+			createPost()
+		});
+
 	};
 
 	const signout = document.querySelector('.js-logout');
