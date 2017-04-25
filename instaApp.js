@@ -72,7 +72,7 @@ instaApp.createUser = (req) => {
 };
 // Create a post
 instaApp.createPost = (user_id, req) => {
-    return instaApp.db.run(`INSERT INTO posts (user_id, image_url, descr) values (${user_id}, $image_url, $descr)`, req)
+    return instaApp.db.run(`INSERT INTO posts (user_id, image_url, descr) values (?,?,?)`, user_id, req.image_url, req.descr)
 };
 
 // Follow a user

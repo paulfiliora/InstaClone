@@ -3,61 +3,69 @@
 	font-weight: bold;
 	font-size: 18px;
 }
+
 .ui.menu {
 	border: none;
 }
+
 .ui.menu.five.item .item {
 	width: 15%;
 }
+
 .ui.card {
 	width: 45%;
 	margin: auto;
 	margin-bottom: 10px;
 }
+
 .main {
 	margin: auto;
 }
+
 .ui.three.stackable.cards {
 	width: 70%;
 	margin: auto;
 }
+
 .ui.form {
 	width: 30%;
 	margin: auto;
 }
+
 .login {
 	margin-bottom: 10px;
 }
+
 .top {
 	clear: both;
 }
 
+#userPage .imagesCard {
+	height: 150px;
+}
 
-
-
-
-
-
+#userPage .userimg {
+	height: 100%;
+	width: 100%;
+}
 
 
 @media only screen and (max-width: 1350px) {
-   .ui.card {
-	width: 50%;
-	margin: auto;
-	margin-bottom: 10px;
-
-    }
-}
-@media only screen and (max-width: 650px) {
-   .ui.card {
-	width: 70%;
-	margin: auto;
-	margin-bottom: 10px;
-
-    }
-.logout {
-	font-size: 15px;
-	margin: auto;
+	.ui.card {
+		width: 50%;
+		margin: auto;
+		margin-bottom: 10px;
 	}
-   
+}
+
+@media only screen and (max-width: 650px) {
+	.ui.card {
+		width: 70%;
+		margin: auto;
+		margin-bottom: 10px;
+	}
+	.logout {
+		font-size: 15px;
+		margin: auto;
+	}
 }

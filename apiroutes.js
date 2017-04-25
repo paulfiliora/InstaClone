@@ -94,11 +94,6 @@ router.get('/:user_id/followedusers', (req, res) => {
 
 // create a post. ##url feeds the user_id + followed_id. req targets posts table columns
 router.post('/:user_id/post', (req, res, next) => {
-    let args = {};
-    for (const prop in req.body) {
-        args['$' + prop] = req.body[prop];
-    }
-    req.body = args;
     const user_id = parseInt(req.params.user_id, 10);
     instaApp.createPost(user_id, req.body)
         .then((data) => {
