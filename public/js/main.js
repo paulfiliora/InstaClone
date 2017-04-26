@@ -190,6 +190,7 @@
 
 	// getting user sign up information and sending it to DB
 	function usersPage() {
+		const userId = localStorage.getItem('user_id')
 		GET('/api/users')
 			.then((posts) => {
 				renderFeed(posts);
@@ -212,9 +213,12 @@
 			for (const feed in preview) {
 				if (preview.hasOwnProperty(feed)) {
 					const userRows = preview[feed]
-					console.log(userRows)
-					console.log(userRows[0].firstName)
+					// console.log(userRows)
+					// console.log(userRows[0].id)
 
+					const followed_id = userRows[0].id
+
+// need logic for the follow button to say unfollow if already followed. 
 					const card = document.createElement('div');
 					card.innerHTML = `
 <div class="content">
@@ -223,7 +227,7 @@
 		   	<img class="ui avatar image" src="${userRows[0].profilePic}"> <b>${userRows[0].firstName} </b>
 		 </div>
 		 <span class="right floated">
-		  	 <button class="ui button">Unfollow</button>
+		  	 <button class="ui button js-follow-button">Follow</button>
 		 </span>
 	</div>
 	<br><br>
@@ -248,8 +252,20 @@
 		</div>
 	</div>			     
 </div>`;
-					card.classList.add('ui', 'card')
+					card.classList.add('ui', 'card');
 					container.appendChild(card);
+
+					card.querySelector('.js-follow-button').addEventListener('click', (e) => {
+						console.log(followed_id)
+						// e.preventDefault();
+
+						POST('/api/' + userId + '/follow/' + followed_id, {
+							// console.log('following')
+							//add here code for switching string in follow
+						})
+					});
+
+
 				}
 			}
 		}
