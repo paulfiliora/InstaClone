@@ -104,7 +104,7 @@
 					password: pw.value
 				})
 				.then((data) => {
-					console.log('POST auth/login data', data);
+					// console.log('POST auth/login data', data);
 					localStorage.setItem('user_id', data.id)
 					if (data.success) {
 						window.location.href = '/home.html'
@@ -131,7 +131,7 @@
 				email: email,
 				password: pw
 			}).then((data) => {
-				console.log(data)
+				// console.log(data)
 				if (data.success) {
 					window.location.href = '/index.html'
 				}
@@ -218,13 +218,13 @@
 
 					const followed_id = userRows[0].id
 
-// need logic for the follow button to say unfollow if already followed. 
+					// need logic for the follow button to say unfollow if already followed. 
 					const card = document.createElement('div');
 					card.innerHTML = `
 <div class="content">
 	<div class="top">
 		 <div class="left floated author">
-		   	<img class="ui avatar image" src="${userRows[0].profilePic}"> <b>${userRows[0].firstName} </b>
+		   	<img class="ui avatar image" src="${userRows[0].profilePic}"> <b class="js-userName">${userRows[0].firstName} </b>
 		 </div>
 		 <span class="right floated">
 		  	 <button class="ui button js-follow-button">Follow</button>
@@ -256,16 +256,56 @@
 					container.appendChild(card);
 
 					card.querySelector('.js-follow-button').addEventListener('click', (e) => {
-						console.log(followed_id)
-						// e.preventDefault();
-
 						POST('/api/' + userId + '/follow/' + followed_id, {
-							// console.log('following')
 							//add here code for switching string in follow
 						})
 					});
 
+					card.querySelector('.js-userName').addEventListener('click', (e) => {
+						renderUser()
+					});
 
+
+					//try putting the location.hash for an individual page
+					//button.query -> #userprofile/u_id
+					//location.hash clears container => renders user.
+					function renderUser() {
+						GET('/api/user/' + followed_id)
+							.then((posts) => {
+								renderFeed(posts);
+							});
+
+						function renderFeed(posts) {
+							const container = document.querySelector('.js-main');
+							container.innerHTML = '';
+							const userSection = document.createElement('div');
+							container.appendChild(userSection);
+			userSection.innerHTML = `
+<div class="ui two column centered grid">
+  <div class="column userAvatarSection">
+	<img class="ui avatar small image" src="${posts.user[0].profile_pic}">
+	<span class="userAvatarText">${posts.user[0].firstName} ${posts.user[0].lastName}</span>
+	<span class="right floated">
+		 <button class="ui button js-follow-button">Follow</button>
+	</span>
+  </div>
+</div>
+<div class="ui three stackable cards js-stackable"></div>`;
+
+							const userContainer = document.querySelector('.js-stackable');
+
+							for (const post of posts.user) {
+								const card = document.createElement('div');
+								card.innerHTML = `
+	<div class="image imagesCard">
+		<img class="userimg" src="${post.image}">
+	</div>
+        `;
+								card.classList.add('card')
+								userContainer.appendChild(card);
+							}
+						}
+					}
 				}
 			}
 		}
@@ -280,27 +320,29 @@
 			});
 
 		function renderFeed(posts) {
+			console.log(posts)
+
+			const mainContainer = document.querySelector('.main');
+			mainContainer.innerHTML = `
+<div class="ui two column centered grid">
+  <div class="column userAvatarSection">
+	<img class="ui avatar small image" src="${posts.user[0].profile_pic}">
+	<span class="userAvatarText">${posts.user[0].firstName} ${posts.user[0].lastName}</span>
+	<span class="right floated userAvatarText">
+		 <button class="ui button js-follow-button">Follow</button>
+	</span>
+  </div>
+</div>
+<div class="ui three stackable cards js-stackable"></div>`;
 
 			const container = document.querySelector('.js-stackable');
-			container.innerHTML = " ";
+			container.innerHTML = '';
 
 			for (const post of posts.user) {
-				console.log(post);
-				console.log(post.image);
-
 				const card = document.createElement('div');
 				card.innerHTML = `
-<div class="image">
-    <img src="${post.image}">
-</div>
-<div class="content">
-    <a class="header">${post.firstName}</a>
-    <div class="meta">
-        <span class="date">${post.timestamp}</span>
-    </div>
-    <div class="description">
-        ${post.description}
-    </div>
+<div class="image imagesCard">
+    <img class="userimg" src="${post.image}">
 </div>
         `;
 				card.classList.add('card')
@@ -374,7 +416,7 @@
 			});
 
 			Promise.all(fileUploads).then((items) => {
-				console.log(items);
+				// console.log(items);
 				imageURL = items[0]
 			});
 		}); // upload files
@@ -390,7 +432,7 @@
 				descr: description.value,
 				image_url: imageURL
 			}).then((data) => {
-				console.log(data)
+				// console.log(data)
 				description.removeAttribute('disabled');
 				description.value = '';
 			});
@@ -413,7 +455,7 @@
 	function logout() {
 		GET('/auth/logout')
 			.then((data) => {
-				console.log('logout data :', data);
+				// console.log('logout data :', data);
 				localStorage.setItem('user_id', null);
 				window.location.href = '/'
 			})
