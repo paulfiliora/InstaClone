@@ -40,14 +40,24 @@
 	clear: both;
 }
 
-#userPage .imagesCard {
-	height: 150px;
+.imagesCard {
+	height: 150px !important;
 }
 
-#userPage .userimg {
-	height: 100%;
-	width: 100%;
+.userimg {
+	height: 100% !important;
+	width: 100% !important;
 }
+
+.userAvatarSection{
+	margin: 50px !important;
+}
+
+.userAvatarText{
+    margin-left: 100px !important;
+    font-weight: bolder !important;
+}
+
 
 
 @media only screen and (max-width: 1350px) {
