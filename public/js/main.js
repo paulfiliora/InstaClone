@@ -224,7 +224,7 @@
 <div class="content">
 	<div class="top">
 		 <div class="left floated author">
-		   	<img class="ui avatar image" src="${userRows[0].profilePic}"> <b class="js-userName">${userRows[0].firstName} </b>
+		   	<img class="ui avatar image" src="${userRows[0].profilePic}"> <a href="#" class="js-userName">${userRows[0].firstName} </a>
 		 </div>
 		 <span class="right floated">
 		  	 <button class="ui button js-follow-button">Follow</button>
@@ -281,11 +281,16 @@
 							const userSection = document.createElement('div');
 							container.appendChild(userSection);
 			userSection.innerHTML = `
+<div class="ui three stackable cards">
+<button class="ui left labeled icon button">
+  <a href="users.html"> <i class="left arrow icon"></i> Users</a>
+</button>
+</div>
 <div class="ui two column centered grid">
   <div class="column userAvatarSection">
 	<img class="ui avatar small image" src="${posts.user[0].profile_pic}">
 	<span class="userAvatarText">${posts.user[0].firstName} ${posts.user[0].lastName}</span>
-	<span class="right floated">
+	<span class="right floated userAvatarText">
 		 <button class="ui button js-follow-button">Follow</button>
 	</span>
   </div>
