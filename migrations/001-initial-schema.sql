@@ -21,10 +21,10 @@ CREATE table posts(
     descr CHAR(140),
     timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
 );
-INSERT into users (first_name, last_name, profile_pic, email, password) VALUES ('Paul', 'Filiora','https://pbs.twimg.com/profile_images/378800000262587313/ded5133de40ef2e2f4e0815aef640c2b.jpeg', 'p@email.com', 'ppassword');
-INSERT into users (first_name, last_name, profile_pic, email, password) VALUES ('Baba', 'Kale', 'https://s-media-cache-ak0.pinimg.com/originals/76/62/99/76629960f3a3c5dd121c3501a605d576.jpg','h@email.com', 'epassword');
-INSERT into users (first_name, last_name, profile_pic, email, password) VALUES ('Orange', 'Juice', 'https://s-media-cache-ak0.pinimg.com/originals/99/e4/1f/99e41f2691d4f4cca9bab8bda71b3427.jpg','o@email.com', 'opassword');
-INSERT into users (first_name, last_name, profile_pic, email, password) VALUES ('Black', 'Coffee', 'https://s-media-cache-ak0.pinimg.com/originals/88/76/0b/88760b43d5cc8eb58838c7e3d0e8dc1b.jpg','b@email.come', 'bpassword');
+INSERT into users (first_name, last_name, profile_pic, email, password) VALUES ('Kobe', 'Bryant','https://pbs.twimg.com/profile_images/378800000262587313/ded5133de40ef2e2f4e0815aef640c2b.jpeg', 'p@email.com', 'ppassword');
+INSERT into users (first_name, last_name, profile_pic, email, password) VALUES ('Kim', 'Un', 'https://s-media-cache-ak0.pinimg.com/originals/76/62/99/76629960f3a3c5dd121c3501a605d576.jpg','h@email.com', 'epassword');
+INSERT into users (first_name, last_name, profile_pic, email, password) VALUES ('Shaq', 'ONeil', 'https://s-media-cache-ak0.pinimg.com/originals/99/e4/1f/99e41f2691d4f4cca9bab8bda71b3427.jpg','test@email.com', 'password');
+INSERT into users (first_name, last_name, profile_pic, email, password) VALUES ('Vlad', 'Rogers', 'https://s-media-cache-ak0.pinimg.com/originals/88/76/0b/88760b43d5cc8eb58838c7e3d0e8dc1b.jpg','b@email.come', 'bpassword');
 
 
 INSERT into followers (user_id, followed_id) VALUES (1,2);

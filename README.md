@@ -35,9 +35,66 @@ Initiate Server
 
 `$ npm start`
 
+Test Log In
+
+`test@email.com` / `password`
+
 ## API Documentation
 
+### GET('/users/')
+* Get all users + their activity
+
+### GET ('/user/:user_id')
+* Get a specified user via user.id + their activity
+
+### GET ('/post/:post_id')
+* Get a specified post ## url feeds post_id
+
+### GET ('/:user_id/followedusers)
+* Get users that $user_id follows
+
+### POST ('/:user_id/post)
+* Create a post
+
+### POST ('/:user_id/follow/:followed_id')
+* Follow a user
+
+### PUT ('/:user_id/update/:post_id')
+* Edit a post
+
+### DELETE ('/:user_id/delete/:post_id')
+* Delete a post
+
+### DELETE ('/:user_id/unfollow/:followed_id')
+* Unfollow a user
+
+## Passport Authentication
+### GET ('/auth/logout')
+### POST ('/auth/login')
+
+# FE framework
+* Semantic UI
+
 ## DB Schemas
+### Tables:
+#### users
+* ID
+* email
+* first_name
+* last_name
+* profile_pic
+
+#### followers
+* user_id
+* followed_id
+
+#### posts 
+* post_id
+* user_id
+* activity_id
+* image_url
+* descr
+* timestamp
 
 
 ## README 

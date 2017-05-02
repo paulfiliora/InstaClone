@@ -280,7 +280,7 @@
 							container.innerHTML = '';
 							const userSection = document.createElement('div');
 							container.appendChild(userSection);
-			userSection.innerHTML = `
+							userSection.innerHTML = `
 <div class="ui three stackable cards">
 <button class="ui left labeled icon button">
   <a href="users.html"> <i class="left arrow icon"></i> Users</a>
@@ -325,7 +325,7 @@
 			});
 
 		function renderFeed(posts) {
-			console.log(posts)
+			// console.log(posts)
 
 			const mainContainer = document.querySelector('.main');
 			mainContainer.innerHTML = `
@@ -352,7 +352,48 @@
         `;
 				card.classList.add('card')
 				container.appendChild(card);
+				const postId = post.postId
 
+				card.addEventListener('click', (e) => {
+					console.log(postId)
+					// renderPost(postId)
+				});
+
+				function renderPost(posts) {
+					const container = document.querySelector('.js-main');
+					container.innerHTML = '';
+					const userSection = document.createElement('div');
+					container.appendChild(userSection);
+					userSection.innerHTML = `
+<div class="ui three stackable cards">
+<button class="ui left labeled icon button">
+  <a href="users.html"> <i class="left arrow icon"></i> Users</a>
+</button>
+</div>
+<div class="ui two column centered grid">
+  <div class="column userAvatarSection">
+	<img class="ui avatar small image" src="${posts.user[0].profile_pic}">
+	<span class="userAvatarText">${posts.user[0].firstName} ${posts.user[0].lastName}</span>
+	<span class="right floated userAvatarText">
+		 <button class="ui button js-follow-button">Follow</button>
+	</span>
+  </div>
+</div>
+<div class="ui three stackable cards js-stackable"></div>`;
+
+					const userContainer = document.querySelector('.js-stackable');
+
+					for (const post of posts.user) {
+						const card = document.createElement('div');
+						card.innerHTML = `
+	<div class="image imagesCard">
+		<img class="userimg" src="${post.image}">
+	</div>
+        `;
+						card.classList.add('card')
+						userContainer.appendChild(card);
+					}
+				}
 			}
 		}
 	}
