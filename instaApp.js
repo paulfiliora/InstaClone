@@ -13,6 +13,7 @@ instaApp.getUsers = () => {
                     users.id AS id,
                     users.first_name AS firstName,
                     users.last_name AS lastName,
+                    posts.post_id as postId,
                     users.profile_pic AS profilePic,
                     posts.image_url AS image,
                     posts.descr AS description,
@@ -28,6 +29,7 @@ instaApp.getUser = (user_id) => {
                     users.first_name AS firstName,
                     users.last_name AS lastName,
                     users.profile_pic AS profile_pic,
+                    posts.post_id as postId,
                     posts.image_url AS image,
                     posts.descr AS description,
                     posts.timestamp
@@ -42,6 +44,7 @@ instaApp.getPost = (post_id) => {
     return instaApp.db.all(`SELECT
                     users.first_name AS firstName,
                     users.last_name AS lastName,
+                    posts.post_id as postId,
                     posts.image_url AS image,
                     posts.descr AS description,
                     posts.timestamp
