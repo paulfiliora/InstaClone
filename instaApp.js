@@ -13,6 +13,7 @@ instaApp.getUsers = () => {
                     users.id AS id,
                     users.first_name AS firstName,
                     users.last_name AS lastName,
+                    users.profile_pic AS profilePic,
                     posts.image_url AS image,
                     posts.descr AS description,
                     posts.timestamp
@@ -65,14 +66,13 @@ instaApp.getFollowed = (user_id) => {
                 ORDER BY posts.timestamp DESC`)
 };
 
-// Create a user //NO ROUTE YET
-instaApp.createUser = (user_id, req) => {
-    return instaApp.db.run(`INSERT INTO users (first_name, last_name, email, password) values ($first_name, $last_name, $email, $password)`, req)
+//Create User
+instaApp.createUser = (req) => {
+    return instaApp.db.run(`INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)`, req.first_name, req.last_name, req.email, req.password)    
 };
-
 // Create a post
 instaApp.createPost = (user_id, req) => {
-    return instaApp.db.run(`INSERT INTO posts (user_id, image_url, descr) values (${user_id}, $image_url, $descr)`, req)
+    return instaApp.db.run(`INSERT INTO posts (user_id, image_url, descr) values (?,?,?)`, user_id, req.image_url, req.descr)
 };
 
 // Follow a user

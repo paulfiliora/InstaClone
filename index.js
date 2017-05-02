@@ -5,16 +5,20 @@ const db = require('sqlite');
 const expressSession = require('express-session');
 const parser = require('body-parser');
 const DB_NAME = './database.sqlite';
+const auth = require('./authRoutes');
 const apiRoutes = require('./apiRoutes');
+const moment = require('moment');
+moment().format();
 
 app.use('/api', apiRoutes(db))
 app.use(parser.json())
 app.use(expressSession({
-    secret: 'nycda',
+    secret: 'NYCDA',
     resave: false,
     saveUninitialized: false
 }));
 app.use('/', express.static('public'));
+
 
 //WebUi for testing sql
 const socket = require('./sqliteui/websocket');
@@ -24,7 +28,7 @@ const socket = require('./sqliteui/websocket');
 const SocketInst = socket(DB_NAME, app);
 app = SocketInst.app;
 
-
+app.use(auth);
 
 const passport = require('./passport')(app, db);
 
